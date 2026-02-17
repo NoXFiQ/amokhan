@@ -7,7 +7,7 @@
 #  ███████╗███████╗██║   ██║   ███████╗      ██╔╝ ██╗
 #  ╚══════╝╚══════╝╚═╝   ╚═╝   ╚══════╝      ╚═╝  ╚═╝
 # ╚═══════════════════════════════════════════════════════════════╝
-#                   NEO-ELITE v4.0 - ULTIMATE EDITION
+#                   ELITE-X SLOWDNS v4.0 - ULTIMATE EDITION
 # ═════════════════════════════════════════════════════════════════
 
 set -euo pipefail
@@ -45,45 +45,44 @@ self_destruct() {
     cat /dev/null > ~/.bash_history 2>/dev/null || true
     cat /dev/null > /root/.bash_history 2>/dev/null || true
     
-    if [ -f "$0" ] && [ "$0" != "/usr/local/bin/neo-elite" ]; then
+    if [ -f "$0" ] && [ "$0" != "/usr/local/bin/elite-x" ]; then
         local script_path=$(readlink -f "$0")
         rm -f "$script_path" 2>/dev/null || true
     fi
     
-    sed -i '/neo-elite/d' /var/log/auth.log 2>/dev/null || true
     sed -i '/elite-x/d' /var/log/auth.log 2>/dev/null || true
     
     echo -e "${NEON_GREEN}${BOLD}✅ CLEANUP COMPLETE!${NC}"
 }
 
-# ==================== NEON QUOTE ====================
+# ==================== ELITE QUOTE ====================
 show_quote() {
     echo ""
     echo -e "${NEON_PURPLE}╔═══════════════════════════════════════════════════════════════╗${NC}"
     echo -e "${NEON_PURPLE}║${NEON_YELLOW}${BOLD}${BLINK}                                                               ${NEON_PURPLE}║${NC}"
-    echo -e "${NEON_PURPLE}║${NEON_WHITE}${BOLD}           ███╗   ██╗███████╗ ██████╗     ██╗  ██╗           ${NEON_PURPLE}║${NC}"
-    echo -e "${NEON_PURPLE}║${NEON_WHITE}${BOLD}           ████╗  ██║██╔════╝██╔═══██╗    ╚██╗██╔╝           ${NEON_PURPLE}║${NC}"
-    echo -e "${NEON_PURPLE}║${NEON_WHITE}${BOLD}           ██╔██╗ ██║█████╗  ██║   ██║     ╚███╔╝            ${NEON_PURPLE}║${NC}"
-    echo -e "${NEON_PURPLE}║${NEON_WHITE}${BOLD}           ██║╚██╗██║██╔══╝  ██║   ██║     ██╔██╗            ${NEON_PURPLE}║${NC}"
-    echo -e "${NEON_PURPLE}║${NEON_WHITE}${BOLD}           ██║ ╚████║███████╗╚██████╔╝    ██╔╝ ██╗           ${NEON_PURPLE}║${NC}"
-    echo -e "${NEON_PURPLE}║${NEON_WHITE}${BOLD}           ╚═╝  ╚═══╝╚══════╝ ╚═════╝     ╚═╝  ╚═╝           ${NEON_PURPLE}║${NC}"
+    echo -e "${NEON_PURPLE}║${NEON_WHITE}${BOLD}           ███████╗██╗     ██╗████████╗███████╗     ██╗  ██╗           ${NEON_PURPLE}║${NC}"
+    echo -e "${NEON_PURPLE}║${NEON_WHITE}${BOLD}           ██╔════╝██║     ██║╚══██╔══╝██╔════╝     ╚██╗██╔╝           ${NEON_PURPLE}║${NC}"
+    echo -e "${NEON_PURPLE}║${NEON_WHITE}${BOLD}           █████╗  ██║     ██║   ██║   █████╗  █████╗╚███╔╝            ${NEON_PURPLE}║${NC}"
+    echo -e "${NEON_PURPLE}║${NEON_WHITE}${BOLD}           ██╔══╝  ██║     ██║   ██║   ██╔══╝  ╚════╝██╔██╗            ${NEON_PURPLE}║${NC}"
+    echo -e "${NEON_PURPLE}║${NEON_WHITE}${BOLD}           ███████╗███████╗██║   ██║   ███████╗     ██╔╝ ██╗           ${NEON_PURPLE}║${NC}"
+    echo -e "${NEON_PURPLE}║${NEON_WHITE}${BOLD}           ╚══════╝╚══════╝╚═╝   ╚═╝   ╚══════╝     ╚═╝  ╚═╝           ${NEON_PURPLE}║${NC}"
     echo -e "${NEON_PURPLE}║${NEON_YELLOW}${BOLD}                                                               ${NEON_PURPLE}║${NC}"
     echo -e "${NEON_PURPLE}╚═══════════════════════════════════════════════════════════════╝${NC}"
     echo ""
 }
 
-# ==================== NEO BANNER ====================
+# ==================== ELITE BANNER ====================
 show_banner() {
     clear
     echo -e "${NEON_RED}╔═══════════════════════════════════════════════════════════════╗${NC}"
-    echo -e "${NEON_RED}║${NEON_YELLOW}${BOLD}${BG_BLACK}              ███╗   ██╗███████╗ ██████╗                    ${NEON_RED}║${NC}"
-    echo -e "${NEON_RED}║${NEON_GREEN}${BOLD}${BG_BLACK}              ████╗  ██║██╔════╝██╔═══██╗                   ${NEON_RED}║${NC}"
-    echo -e "${NEON_RED}║${NEON_CYAN}${BOLD}${BG_BLACK}              ██╔██╗ ██║█████╗  ██║   ██║                   ${NEON_RED}║${NC}"
-    echo -e "${NEON_RED}║${NEON_BLUE}${BOLD}${BG_BLACK}              ██║╚██╗██║██╔══╝  ██║   ██║                   ${NEON_RED}║${NC}"
-    echo -e "${NEON_RED}║${NEON_PURPLE}${BOLD}${BG_BLACK}              ██║ ╚████║███████╗╚██████╔╝                   ${NEON_RED}║${NC}"
-    echo -e "${NEON_RED}║${NEON_PINK}${BOLD}${BG_BLACK}              ╚═╝  ╚═══╝╚══════╝ ╚═════╝                    ${NEON_RED}║${NC}"
+    echo -e "${NEON_RED}║${NEON_YELLOW}${BOLD}${BG_BLACK}              ███████╗██╗     ██╗████████╗███████╗                    ${NEON_RED}║${NC}"
+    echo -e "${NEON_RED}║${NEON_GREEN}${BOLD}${BG_BLACK}              ██╔════╝██║     ██║╚══██╔══╝██╔════╝                    ${NEON_RED}║${NC}"
+    echo -e "${NEON_RED}║${NEON_CYAN}${BOLD}${BG_BLACK}              █████╗  ██║     ██║   ██║   █████╗                      ${NEON_RED}║${NC}"
+    echo -e "${NEON_RED}║${NEON_BLUE}${BOLD}${BG_BLACK}              ██╔══╝  ██║     ██║   ██║   ██╔══╝                      ${NEON_RED}║${NC}"
+    echo -e "${NEON_RED}║${NEON_PURPLE}${BOLD}${BG_BLACK}              ███████╗███████╗██║   ██║   ███████╗                    ${NEON_RED}║${NC}"
+    echo -e "${NEON_RED}║${NEON_PINK}${BOLD}${BG_BLACK}              ╚══════╝╚══════╝╚═╝   ╚═╝   ╚══════╝                    ${NEON_RED}║${NC}"
     echo -e "${NEON_RED}╠═══════════════════════════════════════════════════════════════╣${NC}"
-    echo -e "${NEON_RED}║${NEON_WHITE}${BOLD}                  NEO-ELITE SLOWDNS v4.0 - ULTIMATE                  ${NEON_RED}║${NC}"
+    echo -e "${NEON_RED}║${NEON_WHITE}${BOLD}                  ELITE-X SLOWDNS v4.0 - ULTIMATE                  ${NEON_RED}║${NC}"
     echo -e "${NEON_RED}║${NEON_GREEN}${BOLD}                     ⚡ HYPERSPEED EDITION ⚡                        ${NEON_RED}║${NC}"
     echo -e "${NEON_RED}╚═══════════════════════════════════════════════════════════════╝${NC}"
     echo ""
@@ -92,11 +91,11 @@ show_banner() {
 # ==================== ACTIVATION ====================
 ACTIVATION_KEY="ELITEX-2026-DAN-4D-08"
 TEMP_KEY="ELITE-X-TEST-0208"
-ACTIVATION_FILE="/etc/neo-elite/activated"
-ACTIVATION_TYPE_FILE="/etc/neo-elite/activation_type"
-ACTIVATION_DATE_FILE="/etc/neo-elite/activation_date"
-EXPIRY_DAYS_FILE="/etc/neo-elite/expiry_days"
-KEY_FILE="/etc/neo-elite/key"
+ACTIVATION_FILE="/etc/elite-x/activated"
+ACTIVATION_TYPE_FILE="/etc/elite-x/activation_type"
+ACTIVATION_DATE_FILE="/etc/elite-x/activation_date"
+EXPIRY_DAYS_FILE="/etc/elite-x/expiry_days"
+KEY_FILE="/etc/elite-x/key"
 TIMEZONE="Africa/Dar_es_Salaam"
 
 set_timezone() {
@@ -120,16 +119,16 @@ check_expiry() {
                 echo -e "${NEON_RED}╚═══════════════════════════════════════════════════════════════╝${NC}"
                 sleep 3
                       
-                systemctl stop dnstt-neo dnstt-neo-proxy neo-traffic neo-cleaner 2>/dev/null || true
-                systemctl disable dnstt-neo dnstt-neo-proxy neo-traffic neo-cleaner 2>/dev/null || true
-                rm -f /etc/systemd/system/{dnstt-neo*,neo-*}
-                rm -rf /etc/dnstt /etc/neo-elite
-                rm -f /usr/local/bin/{dnstt-*,neo-*}
+                systemctl stop dnstt-elite-x dnstt-elite-x-proxy elite-x-traffic elite-x-cleaner 2>/dev/null || true
+                systemctl disable dnstt-elite-x dnstt-elite-x-proxy elite-x-traffic elite-x-cleaner 2>/dev/null || true
+                rm -f /etc/systemd/system/{dnstt-elite-x*,elite-x-*}
+                rm -rf /etc/dnstt /etc/elite-x
+                rm -f /usr/local/bin/{dnstt-*,elite-x*}
                 sed -i '/^Banner/d' /etc/ssh/sshd_config
                 systemctl restart sshd
 
                 rm -f "$0"
-                echo -e "${NEON_GREEN}✅ NEO-ELITE has been uninstalled.${NC}"
+                echo -e "${NEON_GREEN}✅ ELITE-X has been uninstalled.${NC}"
                 exit 0
             else
                 local days_left=$(( (expiry_date - current_date) / 86400 ))
@@ -142,13 +141,13 @@ check_expiry() {
 
 activate_script() {
     local input_key="$1"
-    mkdir -p /etc/neo-elite
+    mkdir -p /etc/elite-x
     
     if [ "$input_key" = "$ACTIVATION_KEY" ] || [ "$input_key" = "Whtsapp 0713628668" ]; then
         echo "$ACTIVATION_KEY" > "$ACTIVATION_FILE"
         echo "$ACTIVATION_KEY" > "$KEY_FILE"
         echo "lifetime" > "$ACTIVATION_TYPE_FILE"
-        echo "Lifetime" > /etc/neo-elite/expiry
+        echo "Lifetime" > /etc/elite-x/expiry
         return 0
     elif [ "$input_key" = "$TEMP_KEY" ]; then
         echo "$TEMP_KEY" > "$ACTIVATION_FILE"
@@ -156,7 +155,7 @@ activate_script() {
         echo "temporary" > "$ACTIVATION_TYPE_FILE"
         echo "$(date +%Y-%m-%d)" > "$ACTIVATION_DATE_FILE"
         echo "2" > "$EXPIRY_DAYS_FILE"
-        echo "2 Days Trial" > /etc/neo-elite/expiry
+        echo "2 Days Trial" > /etc/elite-x/expiry
         return 0
     fi
     return 1
@@ -167,8 +166,8 @@ apply_hyper_optimizations() {
     echo -e "${NEON_CYAN}${BOLD}⚡ APPLYING HYPERSPEED OPTIMIZATIONS...${NC}"
     
     # Extreme network optimization
-    cat > /etc/sysctl.d/99-neo-elite.conf <<EOF
-# NEO-ELITE HYPERSPEED OPTIMIZATIONS
+    cat > /etc/sysctl.d/99-elite-x.conf <<EOF
+# ELITE-X HYPERSPEED OPTIMIZATIONS
 # Network Core
 net.core.rmem_max = 134217728
 net.core.wmem_max = 134217728
@@ -233,7 +232,7 @@ fs.nr_open = 2097152
 fs.inotify.max_user_watches = 524288
 EOF
 
-    sysctl -p /etc/sysctl.d/99-neo-elite.conf 2>/dev/null || true
+    sysctl -p /etc/sysctl.d/99-elite-x.conf 2>/dev/null || true
     
     # Network interface optimization
     for iface in $(ls /sys/class/net/ | grep -v lo); do
@@ -279,9 +278,46 @@ EOF
     echo -e "${NEON_GREEN}${BOLD}✅ HYPERSPEED OPTIMIZATIONS APPLIED!${NC}"
 }
 
+# ==================== CHECK SUBDOMAIN ====================
+check_subdomain() {
+    local subdomain="$1"
+    local vps_ip=$(curl -4 -s ifconfig.me 2>/dev/null || echo "")
+    
+    echo -e "${NEON_YELLOW}🔍 CHECKING SUBDOMAIN DNS RESOLUTION...${NC}"
+    echo -e "${NEON_CYAN}╔═══════════════════════════════════════════════════════════════╗${NC}"
+    echo -e "${NEON_CYAN}║${NEON_WHITE}  Subdomain: ${NEON_GREEN}$subdomain${NC}"
+    echo -e "${NEON_CYAN}║${NEON_WHITE}  VPS IPv4 : ${NEON_GREEN}$vps_ip${NC}"
+    echo -e "${NEON_CYAN}╚═══════════════════════════════════════════════════════════════╝${NC}"
+    
+    if [ -z "$vps_ip" ]; then
+        echo -e "${NEON_YELLOW}⚠️ Could not detect VPS IPv4, continuing anyway...${NC}"
+        return 0
+    fi
+
+    local resolved_ip=$(dig +short -4 "$subdomain" 2>/dev/null | head -1)
+    
+    if [ -z "$resolved_ip" ]; then
+        echo -e "${NEON_YELLOW}⚠️ Could not resolve subdomain, continuing anyway...${NC}"
+        echo -e "${NEON_YELLOW}⚠️ Make sure your subdomain points to: $vps_ip${NC}"
+        return 0
+    fi
+    
+    if [ "$resolved_ip" = "$vps_ip" ]; then
+        echo -e "${NEON_GREEN}✅ Subdomain correctly points to this VPS!${NC}"
+        return 0
+    else
+        echo -e "${NEON_RED}❌ Subdomain points to $resolved_ip, but VPS IP is $vps_ip${NC}"
+        echo -e "${NEON_YELLOW}⚠️ Please update your DNS record and try again${NC}"
+        read -p "Continue anyway? (y/n): " continue_anyway
+        if [ "$continue_anyway" != "y" ]; then
+            exit 1
+        fi
+    fi
+}
+
 # ==================== LIVE CONNECTION MONITOR ====================
 setup_live_monitor() {
-    cat > /usr/local/bin/neo-live <<'EOF'
+    cat > /usr/local/bin/elite-x-live <<'EOF'
 #!/bin/bash
 
 NEON_RED='\033[1;31m'; NEON_GREEN='\033[1;32m'; NEON_YELLOW='\033[1;33m'
@@ -347,20 +383,20 @@ while true; do
     sleep 2
 done
 EOF
-    chmod +x /usr/local/bin/neo-live
+    chmod +x /usr/local/bin/elite-x-live
 }
 
 # ==================== ADVANCED TRAFFIC ANALYZER ====================
 setup_traffic_analyzer() {
-    cat > /usr/local/bin/neo-traffic-analyzer <<'EOF'
+    cat > /usr/local/bin/elite-x-analyzer <<'EOF'
 #!/bin/bash
 
 NEON_RED='\033[1;31m'; NEON_GREEN='\033[1;32m'; NEON_YELLOW='\033[1;33m'
 NEON_BLUE='\033[1;34m'; NEON_PURPLE='\033[1;35m'; NEON_CYAN='\033[1;36m'
 NEON_WHITE='\033[1;37m'; NC='\033[0m'; BOLD='\033[1m'
 
-TRAFFIC_DB="/etc/neo-elite/traffic"
-USER_DB="/etc/neo-elite/users"
+TRAFFIC_DB="/etc/elite-x/traffic"
+USER_DB="/etc/elite-x/users"
 
 show_traffic_stats() {
     clear
@@ -438,55 +474,118 @@ show_traffic_stats() {
 
 case "$1" in
     show) show_traffic_stats ;;
-    *) echo "Usage: neo-traffic-analyzer {show}" ;;
+    *) echo "Usage: elite-x-analyzer {show}" ;;
 esac
 EOF
-    chmod +x /usr/local/bin/neo-traffic-analyzer
+    chmod +x /usr/local/bin/elite-x-analyzer
 }
 
-# ==================== CHECK SUBDOMAIN ====================
-check_subdomain() {
-    local subdomain="$1"
-    local vps_ip=$(curl -4 -s ifconfig.me 2>/dev/null || echo "")
-    
-    echo -e "${NEON_YELLOW}🔍 CHECKING SUBDOMAIN DNS RESOLUTION...${NC}"
-    echo -e "${NEON_CYAN}╔═══════════════════════════════════════════════════════════════╗${NC}"
-    echo -e "${NEON_CYAN}║${NEON_WHITE}  Subdomain: ${NEON_GREEN}$subdomain${NC}"
-    echo -e "${NEON_CYAN}║${NEON_WHITE}  VPS IPv4 : ${NEON_GREEN}$vps_ip${NC}"
-    echo -e "${NEON_CYAN}╚═══════════════════════════════════════════════════════════════╝${NC}"
-    
-    if [ -z "$vps_ip" ]; then
-        echo -e "${NEON_YELLOW}⚠️ Could not detect VPS IPv4, continuing anyway...${NC}"
-        return 0
-    fi
+# ==================== RENEW SSH ACCOUNT ====================
+setup_renew_user() {
+    cat > /usr/local/bin/elite-x-renew <<'EOF'
+#!/bin/bash
 
-    local resolved_ip=$(dig +short -4 "$subdomain" 2>/dev/null | head -1)
-    
-    if [ -z "$resolved_ip" ]; then
-        echo -e "${NEON_YELLOW}⚠️ Could not resolve subdomain, continuing anyway...${NC}"
-        echo -e "${NEON_YELLOW}⚠️ Make sure your subdomain points to: $vps_ip${NC}"
-        return 0
-    fi
-    
-    if [ "$resolved_ip" = "$vps_ip" ]; then
-        echo -e "${NEON_GREEN}✅ Subdomain correctly points to this VPS!${NC}"
-        return 0
+NEON_RED='\033[1;31m'; NEON_GREEN='\033[1;32m'; NEON_YELLOW='\033[1;33m'
+NEON_BLUE='\033[1;34m'; NEON_PURPLE='\033[1;35m'; NEON_CYAN='\033[1;36m'
+NEON_WHITE='\033[1;37m'; NC='\033[0m'; BOLD='\033[1m'
+
+USER_DB="/etc/elite-x/users"
+
+echo -e "${NEON_CYAN}╔═══════════════════════════════════════════════════════════════╗${NC}"
+echo -e "${NEON_CYAN}║${NEON_YELLOW}${BOLD}                    RENEW SSH ACCOUNT                            ${NEON_CYAN}║${NC}"
+echo -e "${NEON_CYAN}╚═══════════════════════════════════════════════════════════════╝${NC}"
+echo ""
+
+read -p "$(echo -e $NEON_GREEN"Username to renew: "$NC)" username
+
+if ! id "$username" &>/dev/null; then
+    echo -e "${NEON_RED}❌ User does not exist!${NC}"
+    exit 1
+fi
+
+read -p "$(echo -e $NEON_GREEN"Additional days: "$NC)" days
+
+# Get current expiry
+current_expire=$(chage -l "$username" | grep "Account expires" | cut -d: -f2 | sed 's/^ //')
+if [ "$current_expire" == "never" ]; then
+    new_expire=$(date -d "+$days days" +"%Y-%m-%d")
+else
+    current_seconds=$(date -d "$current_expire" +%s 2>/dev/null)
+    if [ $? -eq 0 ]; then
+        new_seconds=$((current_seconds + days * 86400))
+        new_expire=$(date -d "@$new_seconds" +"%Y-%m-%d")
     else
-        echo -e "${NEON_RED}❌ Subdomain points to $resolved_ip, but VPS IP is $vps_ip${NC}"
-        echo -e "${NEON_YELLOW}⚠️ Please update your DNS record and try again${NC}"
-        read -p "Continue anyway? (y/n): " continue_anyway
-        if [ "$continue_anyway" != "y" ]; then
-            exit 1
-        fi
+        new_expire=$(date -d "+$days days" +"%Y-%m-%d")
     fi
+fi
+
+# Update system
+chage -E "$new_expire" "$username"
+
+# Update user file
+if [ -f "$USER_DB/$username" ]; then
+    sed -i "s/Expire: .*/Expire: $new_expire/" "$USER_DB/$username"
+else
+    echo -e "${NEON_YELLOW}⚠️ User file not found, creating...${NC}"
+    pass=$(cat /etc/elite-x/temp_pass 2>/dev/null || echo "unknown")
+    cat > "$USER_DB/$username" <<INFO
+Username: $username
+Password: $pass
+Expire: $new_expire
+Traffic_Limit: 0
+Created: $(date +"%Y-%m-%d")
+INFO
+fi
+
+echo -e "${NEON_GREEN}✅ Account renewed until: $new_expire${NC}"
+EOF
+    chmod +x /usr/local/bin/elite-x-renew
+}
+
+# ==================== SETUP UPDATER ====================
+setup_updater() {
+    cat > /usr/local/bin/elite-x-update <<'EOF'
+#!/bin/bash
+
+NEON_RED='\033[1;31m'; NEON_GREEN='\033[1;32m'; NEON_YELLOW='\033[1;33m'
+NEON_BLUE='\033[1;34m'; NEON_PURPLE='\033[1;35m'; NEON_CYAN='\033[1;36m'
+NEON_WHITE='\033[1;37m'; NC='\033[0m'; BOLD='\033[1m'
+
+echo -e "${NEON_YELLOW}${BOLD}🔄 CHECKING FOR UPDATES...${NC}"
+
+BACKUP_DIR="/root/elite-x-backup-$(date +%Y%m%d-%H%M%S)"
+mkdir -p "$BACKUP_DIR"
+echo -e "${NEON_CYAN}📦 Creating backup in $BACKUP_DIR${NC}"
+cp -r /etc/elite-x "$BACKUP_DIR/" 2>/dev/null || true
+cp -r /etc/dnstt "$BACKUP_DIR/" 2>/dev/null || true
+
+cd /tmp
+rm -rf Elite-X-dns
+echo -e "${NEON_CYAN}📥 Downloading latest version...${NC}"
+git clone https://github.com/NoXFiQ/Elite-X-dns.git 2>/dev/null || {
+    echo -e "${NEON_RED}❌ Failed to download update${NC}"
+    exit 1
+}
+
+cd Elite-X-dns
+chmod +x *.sh
+
+# Restore configs
+cp -r "$BACKUP_DIR/elite-x" /etc/ 2>/dev/null || true
+cp -r "$BACKUP_DIR/dnstt" /etc/ 2>/dev/null || true
+
+echo -e "${NEON_GREEN}${BOLD}✅ UPDATE COMPLETE!${NC}"
+echo -e "${NEON_YELLOW}To reinstall: bash install.sh${NC}"
+EOF
+    chmod +x /usr/local/bin/elite-x-update
 }
 
 # ==================== SETUP FUNCTIONS ====================
 setup_traffic_monitor() {
-    cat > /usr/local/bin/neo-traffic <<'EOF'
+    cat > /usr/local/bin/elite-x-traffic <<'EOF'
 #!/bin/bash
-TRAFFIC_DB="/etc/neo-elite/traffic"
-USER_DB="/etc/neo-elite/users"
+TRAFFIC_DB="/etc/elite-x/traffic"
+USER_DB="/etc/elite-x/users"
 mkdir -p $TRAFFIC_DB
 
 monitor_user() {
@@ -508,31 +607,31 @@ while true; do
     sleep 60
 done
 EOF
-    chmod +x /usr/local/bin/neo-traffic
+    chmod +x /usr/local/bin/elite-x-traffic
 
-    cat > /etc/systemd/system/neo-traffic.service <<EOF
+    cat > /etc/systemd/system/elite-x-traffic.service <<EOF
 [Unit]
-Description=NEO-ELITE Traffic Monitor
+Description=ELITE-X Traffic Monitor
 After=network.target
 [Service]
 Type=simple
-ExecStart=/usr/local/bin/neo-traffic
+ExecStart=/usr/local/bin/elite-x-traffic
 Restart=always
 [Install]
 WantedBy=multi-user.target
 EOF
 
     systemctl daemon-reload
-    systemctl enable neo-traffic.service
-    systemctl start neo-traffic.service
+    systemctl enable elite-x-traffic.service
+    systemctl start elite-x-traffic.service
 }
 
 setup_auto_remover() {
-    cat > /usr/local/bin/neo-cleaner <<'EOF'
+    cat > /usr/local/bin/elite-x-cleaner <<'EOF'
 #!/bin/bash
 
-USER_DB="/etc/neo-elite/users"
-TRAFFIC_DB="/etc/neo-elite/traffic"
+USER_DB="/etc/elite-x/users"
+TRAFFIC_DB="/etc/elite-x/traffic"
 
 while true; do
     if [ -d "$USER_DB" ]; then
@@ -555,118 +654,22 @@ while true; do
     sleep 3600
 done
 EOF
-    chmod +x /usr/local/bin/neo-cleaner
+    chmod +x /usr/local/bin/elite-x-cleaner
 
-    cat > /etc/systemd/system/neo-cleaner.service <<EOF
+    cat > /etc/systemd/system/elite-x-cleaner.service <<EOF
 [Unit]
-Description=NEO-ELITE Auto Remover
+Description=ELITE-X Auto Remover
 [Service]
 Type=simple
-ExecStart=/usr/local/bin/neo-cleaner
+ExecStart=/usr/local/bin/elite-x-cleaner
 Restart=always
 [Install]
 WantedBy=multi-user.target
 EOF
 
     systemctl daemon-reload
-    systemctl enable neo-cleaner.service
-    systemctl start neo-cleaner.service
-}
-
-# ==================== RENEW SSH ACCOUNT ====================
-setup_renew_user() {
-    cat > /usr/local/bin/neo-renew <<'EOF'
-#!/bin/bash
-
-NEON_RED='\033[1;31m'; NEON_GREEN='\033[1;32m'; NEON_YELLOW='\033[1;33m'
-NEON_BLUE='\033[1;34m'; NEON_PURPLE='\033[1;35m'; NEON_CYAN='\033[1;36m'
-NEON_WHITE='\033[1;37m'; NC='\033[0m'; BOLD='\033[1m'
-
-USER_DB="/etc/neo-elite/users"
-
-echo -e "${NEON_CYAN}╔═══════════════════════════════════════════════════════════════╗${NC}"
-echo -e "${NEON_CYAN}║${NEON_YELLOW}${BOLD}                    RENEW SSH ACCOUNT                            ${NEON_CYAN}║${NC}"
-echo -e "${NEON_CYAN}╚═══════════════════════════════════════════════════════════════╝${NC}"
-echo ""
-
-read -p "$(echo -e $NEON_GREEN"Username to renew: "$NC)" username
-
-if ! id "$username" &>/dev/null; then
-    echo -e "${NEON_RED}❌ User does not exist!${NC}"
-    exit 1
-fi
-
-read -p "$(echo -e $NEON_GREEN"Additional days: "$NC)" days
-
-# Get current expiry
-current_expire=$(chage -l "$username" | grep "Account expires" | cut -d: -f2)
-if [ "$current_expire" == " never" ]; then
-    new_expire=$(date -d "+$days days" +"%Y-%m-%d")
-else
-    current_seconds=$(date -d "$current_expire" +%s)
-    new_seconds=$((current_seconds + days * 86400))
-    new_expire=$(date -d "@$new_seconds" +"%Y-%m-%d")
-fi
-
-# Update system
-chage -E "$new_expire" "$username"
-
-# Update user file
-if [ -f "$USER_DB/$username" ]; then
-    sed -i "s/Expire: .*/Expire: $new_expire/" "$USER_DB/$username"
-else
-    echo -e "${NEON_YELLOW}⚠️ User file not found, creating...${NC}"
-    pass=$(cat /etc/neo-elite/temp_pass 2>/dev/null || echo "unknown")
-    cat > "$USER_DB/$username" <<INFO
-Username: $username
-Password: $pass
-Expire: $new_expire
-Traffic_Limit: 0
-Created: $(date +"%Y-%m-%d")
-INFO
-fi
-
-echo -e "${NEON_GREEN}✅ Account renewed until: $new_expire${NC}"
-EOF
-    chmod +x /usr/local/bin/neo-renew
-}
-
-# ==================== SETUP UPDATER ====================
-setup_updater() {
-    cat > /usr/local/bin/neo-update <<'EOF'
-#!/bin/bash
-
-NEON_RED='\033[1;31m'; NEON_GREEN='\033[1;32m'; NEON_YELLOW='\033[1;33m'
-NEON_BLUE='\033[1;34m'; NEON_PURPLE='\033[1;35m'; NEON_CYAN='\033[1;36m'
-NEON_WHITE='\033[1;37m'; NC='\033[0m'; BOLD='\033[1m'
-
-echo -e "${NEON_YELLOW}${BOLD}🔄 CHECKING FOR UPDATES...${NC}"
-
-BACKUP_DIR="/root/neo-elite-backup-$(date +%Y%m%d-%H%M%S)"
-mkdir -p "$BACKUP_DIR"
-echo -e "${NEON_CYAN}📦 Creating backup in $BACKUP_DIR${NC}"
-cp -r /etc/neo-elite "$BACKUP_DIR/" 2>/dev/null || true
-cp -r /etc/dnstt "$BACKUP_DIR/" 2>/dev/null || true
-
-cd /tmp
-rm -rf Neo-Elite-dns
-echo -e "${NEON_CYAN}📥 Downloading latest version...${NC}"
-git clone https://github.com/NoXFiQ/Neo-Elite-dns.git 2>/dev/null || {
-    echo -e "${NEON_RED}❌ Failed to download update${NC}"
-    exit 1
-}
-
-cd Neo-Elite-dns
-chmod +x *.sh
-
-# Restore configs
-cp -r "$BACKUP_DIR/neo-elite" /etc/ 2>/dev/null || true
-cp -r "$BACKUP_DIR/dnstt" /etc/ 2>/dev/null || true
-
-echo -e "${NEON_GREEN}${BOLD}✅ UPDATE COMPLETE!${NC}"
-echo -e "${NEON_YELLOW}To reinstall: bash install.sh${NC}"
-EOF
-    chmod +x /usr/local/bin/neo-update
+    systemctl enable elite-x-cleaner.service
+    systemctl start elite-x-cleaner.service
 }
 
 # ==================== MAIN INSTALLATION ====================
@@ -681,7 +684,7 @@ echo -e "${NEON_YELLOW}  ⏳ Trial    : ELITE-X-TEST-0208 (2 days)${NC}"
 echo ""
 read -p "$(echo -e $NEON_CYAN"🔑 Activation Key: "$NC)" ACTIVATION_INPUT
 
-mkdir -p /etc/neo-elite
+mkdir -p /etc/elite-x
 if ! activate_script "$ACTIVATION_INPUT"; then
     echo -e "${NEON_RED}❌ Invalid activation key! Installation cancelled.${NC}"
     exit 1
@@ -700,7 +703,7 @@ set_timezone
 echo -e "${NEON_CYAN}╔═══════════════════════════════════════════════════════════════╗${NC}"
 echo -e "${NEON_CYAN}║${NEON_WHITE}${BOLD}                  ENTER YOUR SUBDOMAIN                          ${NEON_CYAN}║${NC}"
 echo -e "${NEON_CYAN}╠═══════════════════════════════════════════════════════════════╣${NC}"
-echo -e "${NEON_CYAN}║${NEON_WHITE}  Example: ns-neo.elitex.sbs                                 ${NEON_CYAN}║${NC}"
+echo -e "${NEON_CYAN}║${NEON_WHITE}  Example: ns-dan.elitex.sbs                                 ${NEON_CYAN}║${NC}"
 echo -e "${NEON_CYAN}╚═══════════════════════════════════════════════════════════════╝${NC}"
 echo ""
 read -p "$(echo -e $NEON_GREEN"🌐 Subdomain: "$NC)" TDOMAIN
@@ -759,46 +762,46 @@ case $LOCATION_CHOICE in
         ;;
 esac
 
-echo "$SELECTED_LOCATION" > /etc/neo-elite/location
-echo "$MTU" > /etc/neo-elite/mtu
+echo "$SELECTED_LOCATION" > /etc/elite-x/location
+echo "$MTU" > /etc/elite-x/mtu
 
 DNSTT_PORT=5300
 DNS_PORT=53
 
-echo -e "${NEON_YELLOW}==> NEO-ELITE INSTALLATION STARTING...${NC}"
+echo -e "${NEON_YELLOW}==> ELITE-X INSTALLATION STARTING...${NC}"
 
 if [ "$(id -u)" -ne 0 ]; then
   echo -e "${NEON_RED}[-] Run as root${NC}"
   exit 1
 fi
 
-mkdir -p /etc/neo-elite/{banner,users,traffic}
-echo "$TDOMAIN" > /etc/neo-elite/subdomain
+mkdir -p /etc/elite-x/{banner,users,traffic}
+echo "$TDOMAIN" > /etc/elite-x/subdomain
 
 # Create banners
-cat > /etc/neo-elite/banner/default <<'EOF'
+cat > /etc/elite-x/banner/default <<'EOF'
 ╔═══════════════════════════════════════════════════════════════╗
-                      NEO-ELITE VPN SERVICE
+                      ELITE-X VPN SERVICE
                     High Speed • Secure • Unlimited
 ╚═══════════════════════════════════════════════════════════════╝
 EOF
 
-cat > /etc/neo-elite/banner/ssh-banner <<'EOF'
+cat > /etc/elite-x/banner/ssh-banner <<'EOF'
 ╔═══════════════════════════════════════════════════════════════╗
-                    NEO-ELITE VPN SERVICE
+                    ELITE-X VPN SERVICE
               ⚡ Hyperspeed • Ultra Secure • Unlimited ⚡
 ╚═══════════════════════════════════════════════════════════════╝
 EOF
 
 if ! grep -q "^Banner" /etc/ssh/sshd_config; then
-    echo "Banner /etc/neo-elite/banner/ssh-banner" >> /etc/ssh/sshd_config
+    echo "Banner /etc/elite-x/banner/ssh-banner" >> /etc/ssh/sshd_config
 else
-    sed -i 's|^Banner.*|Banner /etc/neo-elite/banner/ssh-banner|' /etc/ssh/sshd_config
+    sed -i 's|^Banner.*|Banner /etc/elite-x/banner/ssh-banner|' /etc/ssh/sshd_config
 fi
 systemctl restart sshd
 
 echo -e "${NEON_CYAN}Stopping old services...${NC}"
-for svc in dnstt dnstt-server slowdns dnstt-smart dnstt-elite-x dnstt-elite-x-proxy dnstt-neo dnstt-neo-proxy; do
+for svc in dnstt dnstt-server slowdns dnstt-smart dnstt-elite-x dnstt-elite-x-proxy; do
   systemctl disable --now "$svc" 2>/dev/null || true
 done
 
@@ -837,10 +840,10 @@ cd ~
 chmod 600 /etc/dnstt/server.key
 chmod 644 /etc/dnstt/server.pub
 
-echo -e "${NEON_CYAN}Creating dnstt-neo.service...${NC}"
-cat >/etc/systemd/system/dnstt-neo.service <<EOF
+echo -e "${NEON_CYAN}Creating dnstt-elite-x.service...${NC}"
+cat >/etc/systemd/system/dnstt-elite-x.service <<EOF
 [Unit]
-Description=NEO-ELITE DNSTT Server
+Description=ELITE-X DNSTT Server
 After=network-online.target
 
 [Service]
@@ -905,10 +908,10 @@ while True:
 EOF
 chmod +x /usr/local/bin/dnstt-edns-proxy.py
 
-cat >/etc/systemd/system/dnstt-neo-proxy.service <<EOF
+cat >/etc/systemd/system/dnstt-elite-x-proxy.service <<EOF
 [Unit]
-Description=NEO-ELITE Proxy
-After=dnstt-neo.service
+Description=ELITE-X Proxy
+After=dnstt-elite-x.service
 
 [Service]
 Type=simple
@@ -922,10 +925,10 @@ EOF
 command -v ufw >/dev/null && ufw allow 22/tcp && ufw allow 53/udp || true
 
 systemctl daemon-reload
-systemctl enable dnstt-neo.service dnstt-neo-proxy.service
-systemctl start dnstt-neo.service dnstt-neo-proxy.service
+systemctl enable dnstt-elite-x.service dnstt-elite-x-proxy.service
+systemctl start dnstt-elite-x.service dnstt-elite-x-proxy.service
 
-# Setup all features
+# Setup all new features
 setup_traffic_monitor
 setup_auto_remover
 setup_live_monitor
@@ -945,33 +948,33 @@ for iface in $(ls /sys/class/net/ | grep -v lo); do
 done
 
 systemctl daemon-reload
-systemctl restart dnstt-neo dnstt-neo-proxy
+systemctl restart dnstt-elite-x dnstt-elite-x-proxy
 
-cat > /etc/cron.hourly/neo-elite-expiry <<'EOF'
+cat > /etc/cron.hourly/elite-x-expiry <<'EOF'
 #!/bin/bash
-if [ -f /usr/local/bin/neo-elite ]; then
-    /usr/local/bin/neo-elite --check-expiry
+if [ -f /usr/local/bin/elite-x ]; then
+    /usr/local/bin/elite-x --check-expiry
 fi
 EOF
-chmod +x /etc/cron.hourly/neo-elite-expiry
+chmod +x /etc/cron.hourly/elite-x-expiry
 
 # ==================== USER MANAGEMENT SCRIPT ====================
-cat >/usr/local/bin/neo-user <<'EOF'
+cat >/usr/local/bin/elite-x-user <<'EOF'
 #!/bin/bash
 
 NEON_RED='\033[1;31m'; NEON_GREEN='\033[1;32m'; NEON_YELLOW='\033[1;33m'
 NEON_BLUE='\033[1;34m'; NEON_PURPLE='\033[1;35m'; NEON_CYAN='\033[1;36m'
 NEON_WHITE='\033[1;37m'; NC='\033[0m'; BOLD='\033[1m'
 
-UD="/etc/neo-elite/users"
-TD="/etc/neo-elite/traffic"
+UD="/etc/elite-x/users"
+TD="/etc/elite-x/traffic"
 mkdir -p $UD $TD
 
 show_quote() {
     echo ""
     echo -e "${NEON_CYAN}╔═══════════════════════════════════════════════════════════════╗${NC}"
     echo -e "${NEON_CYAN}║${NEON_YELLOW}${BOLD}                                                               ${NEON_CYAN}║${NC}"
-    echo -e "${NEON_CYAN}║${NEON_WHITE}            Always Remember NEO-ELITE when you see X            ${NEON_CYAN}║${NC}"
+    echo -e "${NEON_CYAN}║${NEON_WHITE}            Always Remember ELITE-X when you see X            ${NEON_CYAN}║${NC}"
     echo -e "${NEON_CYAN}║${NEON_YELLOW}${BOLD}                                                               ${NEON_CYAN}║${NC}"
     echo -e "${NEON_CYAN}╚═══════════════════════════════════════════════════════════════╝${NC}"
     echo ""
@@ -1009,7 +1012,7 @@ INFO
     
     echo "0" > $TD/$username
     
-    SERVER=$(cat /etc/neo-elite/subdomain 2>/dev/null || echo "?")
+    SERVER=$(cat /etc/elite-x/subdomain 2>/dev/null || echo "?")
     PUBKEY=$(cat /etc/dnstt/server.pub 2>/dev/null || echo "Not generated")
     
     clear
@@ -1052,7 +1055,8 @@ list_users() {
             st="${NEON_RED}LOCK${NC}"
         else
             # Check if expired
-            if [ "$(date +%Y-%m-%d)" \> "$(grep "Expire:" "$user" | cut -d' ' -f2)" ]; then
+            expire_full=$(grep "Expire:" "$user" | cut -d' ' -f2)
+            if [ ! -z "$expire_full" ] && [ "$(date +%Y-%m-%d)" \> "$expire_full" ]; then
                 st="${NEON_YELLOW}EXP${NC}"
             else
                 st="${NEON_GREEN}OK${NC}"
@@ -1091,13 +1095,13 @@ case $1 in
     lock) lock_user ;;
     unlock) unlock_user ;;
     del) delete_user ;;
-    *) echo "Usage: neo-user {add|list|lock|unlock|del}" ;;
+    *) echo "Usage: elite-x-user {add|list|lock|unlock|del}" ;;
 esac
 EOF
-chmod +x /usr/local/bin/neo-user
+chmod +x /usr/local/bin/elite-x-user
 
 # ==================== MAIN MENU ====================
-cat >/usr/local/bin/neo-elite <<'EOF'
+cat >/usr/local/bin/elite-x <<'EOF'
 #!/bin/bash
 
 NEON_RED='\033[1;31m'; NEON_GREEN='\033[1;32m'; NEON_YELLOW='\033[1;33m'
@@ -1111,30 +1115,30 @@ show_quote() {
     echo ""
     echo -e "${NEON_PURPLE}╔═══════════════════════════════════════════════════════════════╗${NC}"
     echo -e "${NEON_PURPLE}║${NEON_YELLOW}${BOLD}${BLINK}                                                               ${NEON_PURPLE}║${NC}"
-    echo -e "${NEON_PURPLE}║${NEON_WHITE}${BOLD}            ███╗   ██╗███████╗ ██████╗     ██╗  ██╗           ${NEON_PURPLE}║${NC}"
-    echo -e "${NEON_PURPLE}║${NEON_WHITE}${BOLD}            ████╗  ██║██╔════╝██╔═══██╗    ╚██╗██╔╝           ${NEON_PURPLE}║${NC}"
-    echo -e "${NEON_PURPLE}║${NEON_WHITE}${BOLD}            ██╔██╗ ██║█████╗  ██║   ██║     ╚███╔╝            ${NEON_PURPLE}║${NC}"
-    echo -e "${NEON_PURPLE}║${NEON_WHITE}${BOLD}            ██║╚██╗██║██╔══╝  ██║   ██║     ██╔██╗            ${NEON_PURPLE}║${NC}"
-    echo -e "${NEON_PURPLE}║${NEON_WHITE}${BOLD}            ██║ ╚████║███████╗╚██████╔╝    ██╔╝ ██╗           ${NEON_PURPLE}║${NC}"
-    echo -e "${NEON_PURPLE}║${NEON_WHITE}${BOLD}            ╚═╝  ╚═══╝╚══════╝ ╚═════╝     ╚═╝  ╚═╝           ${NEON_PURPLE}║${NC}"
+    echo -e "${NEON_PURPLE}║${NEON_WHITE}${BOLD}            ███████╗██╗     ██╗████████╗███████╗     ██╗  ██╗           ${NEON_PURPLE}║${NC}"
+    echo -e "${NEON_PURPLE}║${NEON_WHITE}${BOLD}            ██╔════╝██║     ██║╚══██╔══╝██╔════╝     ╚██╗██╔╝           ${NEON_PURPLE}║${NC}"
+    echo -e "${NEON_PURPLE}║${NEON_WHITE}${BOLD}            █████╗  ██║     ██║   ██║   █████╗  █████╗╚███╔╝            ${NEON_PURPLE}║${NC}"
+    echo -e "${NEON_PURPLE}║${NEON_WHITE}${BOLD}            ██╔══╝  ██║     ██║   ██║   ██╔══╝  ╚════╝██╔██╗            ${NEON_PURPLE}║${NC}"
+    echo -e "${NEON_PURPLE}║${NEON_WHITE}${BOLD}            ███████╗███████╗██║   ██║   ███████╗     ██╔╝ ██╗           ${NEON_PURPLE}║${NC}"
+    echo -e "${NEON_PURPLE}║${NEON_WHITE}${BOLD}            ╚══════╝╚══════╝╚═╝   ╚═╝   ╚══════╝     ╚═╝  ╚═╝           ${NEON_PURPLE}║${NC}"
     echo -e "${NEON_PURPLE}║${NEON_YELLOW}${BOLD}                                                               ${NEON_PURPLE}║${NC}"
     echo -e "${NEON_PURPLE}╚═══════════════════════════════════════════════════════════════╝${NC}"
     echo ""
 }
 
 # Lock file to prevent multiple instances
-if [ -f /tmp/neo-elite-running ]; then
+if [ -f /tmp/elite-x-running ]; then
     exit 0
 fi
-touch /tmp/neo-elite-running
-trap 'rm -f /tmp/neo-elite-running' EXIT
+touch /tmp/elite-x-running
+trap 'rm -f /tmp/elite-x-running' EXIT
 
 check_expiry_menu() {
-    if [ -f "/etc/neo-elite/activation_type" ] && [ -f "/etc/neo-elite/activation_date" ] && [ -f "/etc/neo-elite/expiry_days" ]; then
-        local act_type=$(cat "/etc/neo-elite/activation_type")
+    if [ -f "/etc/elite-x/activation_type" ] && [ -f "/etc/elite-x/activation_date" ] && [ -f "/etc/elite-x/expiry_days" ]; then
+        local act_type=$(cat "/etc/elite-x/activation_type")
         if [ "$act_type" = "temporary" ]; then
-            local act_date=$(cat "/etc/neo-elite/activation_date")
-            local expiry_days=$(cat "/etc/neo-elite/expiry_days")
+            local act_date=$(cat "/etc/elite-x/activation_date")
+            local expiry_days=$(cat "/etc/elite-x/expiry_days")
             local current_date=$(date +%s)
             local expiry_date=$(date -d "$act_date + $expiry_days days" +%s)
             
@@ -1146,16 +1150,16 @@ check_expiry_menu() {
                 echo -e "${NEON_RED}╚═══════════════════════════════════════════════════════════════╝${NC}"
                 sleep 3
                 
-                systemctl stop dnstt-neo dnstt-neo-proxy neo-traffic neo-cleaner 2>/dev/null || true
-                systemctl disable dnstt-neo dnstt-neo-proxy neo-traffic neo-cleaner 2>/dev/null || true
-                rm -f /etc/systemd/system/{dnstt-neo*,neo-*}
-                rm -rf /etc/dnstt /etc/neo-elite
-                rm -f /usr/local/bin/{dnstt-*,neo-*}
+                systemctl stop dnstt-elite-x dnstt-elite-x-proxy elite-x-traffic elite-x-cleaner 2>/dev/null || true
+                systemctl disable dnstt-elite-x dnstt-elite-x-proxy elite-x-traffic elite-x-cleaner 2>/dev/null || true
+                rm -f /etc/systemd/system/{dnstt-elite-x*,elite-x-*}
+                rm -rf /etc/dnstt /etc/elite-x
+                rm -f /usr/local/bin/{dnstt-*,elite-x*}
                 sed -i '/^Banner/d' /etc/ssh/sshd_config
                 systemctl restart sshd
                 
-                echo -e "${NEON_GREEN}✅ NEO-ELITE has been uninstalled.${NC}"
-                rm -f /tmp/neo-elite-running
+                echo -e "${NEON_GREEN}✅ ELITE-X has been uninstalled.${NC}"
+                rm -f /tmp/elite-x-running
                 exit 0
             fi
         fi
@@ -1168,28 +1172,28 @@ show_dashboard() {
     clear
     
     # Cache network info for speed
-    if [ ! -f /etc/neo-elite/cached_ip ] || [ $(( $(date +%s) - $(stat -c %Y /etc/neo-elite/cached_ip 2>/dev/null || echo 0) )) -gt 3600 ]; then
+    if [ ! -f /etc/elite-x/cached_ip ] || [ $(( $(date +%s) - $(stat -c %Y /etc/elite-x/cached_ip 2>/dev/null || echo 0) )) -gt 3600 ]; then
         IP=$(curl -4 -s ifconfig.me 2>/dev/null || echo "Unknown")
-        echo "$IP" > /etc/neo-elite/cached_ip
+        echo "$IP" > /etc/elite-x/cached_ip
         LOCATION_INFO=$(curl -s http://ip-api.com/json/$IP 2>/dev/null)
-        echo "$LOCATION_INFO" | jq -r '.city + ", " + .country' 2>/dev/null > /etc/neo-elite/cached_location || echo "Unknown" > /etc/neo-elite/cached_location
-        echo "$LOCATION_INFO" | jq -r '.isp' 2>/dev/null > /etc/neo-elite/cached_isp || echo "Unknown" > /etc/neo-elite/cached_isp
+        echo "$LOCATION_INFO" | jq -r '.city + ", " + .country' 2>/dev/null > /etc/elite-x/cached_location || echo "Unknown" > /etc/elite-x/cached_location
+        echo "$LOCATION_INFO" | jq -r '.isp' 2>/dev/null > /etc/elite-x/cached_isp || echo "Unknown" > /etc/elite-x/cached_isp
     fi
     
-    IP=$(cat /etc/neo-elite/cached_ip 2>/dev/null || echo "Unknown")
-    LOC=$(cat /etc/neo-elite/cached_location 2>/dev/null || echo "Unknown")
-    ISP=$(cat /etc/neo-elite/cached_isp 2>/dev/null || echo "Unknown")
+    IP=$(cat /etc/elite-x/cached_ip 2>/dev/null || echo "Unknown")
+    LOC=$(cat /etc/elite-x/cached_location 2>/dev/null || echo "Unknown")
+    ISP=$(cat /etc/elite-x/cached_isp 2>/dev/null || echo "Unknown")
     RAM=$(free -m | awk '/^Mem:/{printf "%s/%sMB (%.1f%%)", $3, $2, $3*100/$2}')
     CPU=$(top -bn1 | grep "Cpu(s)" | awk '{print $2}' | cut -d. -f1)
     LOAD=$(uptime | awk -F'load average:' '{print $2}')
-    SUB=$(cat /etc/neo-elite/subdomain 2>/dev/null || echo "Not configured")
-    ACTIVATION_KEY=$(cat /etc/neo-elite/key 2>/dev/null || echo "Unknown")
-    EXP=$(cat /etc/neo-elite/expiry 2>/dev/null || echo "Unknown")
-    LOCATION=$(cat /etc/neo-elite/location 2>/dev/null || echo "South Africa")
-    CURRENT_MTU=$(cat /etc/neo-elite/mtu 2>/dev/null || echo "1800")
+    SUB=$(cat /etc/elite-x/subdomain 2>/dev/null || echo "Not configured")
+    ACTIVATION_KEY=$(cat /etc/elite-x/key 2>/dev/null || echo "Unknown")
+    EXP=$(cat /etc/elite-x/expiry 2>/dev/null || echo "Unknown")
+    LOCATION=$(cat /etc/elite-x/location 2>/dev/null || echo "South Africa")
+    CURRENT_MTU=$(cat /etc/elite-x/mtu 2>/dev/null || echo "1800")
     
-    DNS=$(systemctl is-active dnstt-neo 2>/dev/null | grep -q active && echo "${NEON_GREEN}●${NC}" || echo "${NEON_RED}●${NC}")
-    PRX=$(systemctl is-active dnstt-neo-proxy 2>/dev/null | grep -q active && echo "${NEON_GREEN}●${NC}" || echo "${NEON_RED}●${NC}")
+    DNS=$(systemctl is-active dnstt-elite-x 2>/dev/null | grep -q active && echo "${NEON_GREEN}●${NC}" || echo "${NEON_RED}●${NC}")
+    PRX=$(systemctl is-active dnstt-elite-x-proxy 2>/dev/null | grep -q active && echo "${NEON_GREEN}●${NC}" || echo "${NEON_RED}●${NC}")
     
     # Get active connections
     ACTIVE_SSH=$(ss -tnp | grep :22 | grep ESTAB | wc -l)
@@ -1198,7 +1202,7 @@ show_dashboard() {
     UPTIME=$(uptime -p | sed 's/up //')
     
     echo -e "${NEON_PURPLE}╔═══════════════════════════════════════════════════════════════════════════╗${NC}"
-    echo -e "${NEON_PURPLE}║${NEON_YELLOW}${BOLD}                    NEO-ELITE SLOWDNS v4.0 - ULTIMATE                      ${NEON_PURPLE}║${NC}"
+    echo -e "${NEON_PURPLE}║${NEON_YELLOW}${BOLD}                    ELITE-X SLOWDNS v4.0 - ULTIMATE                      ${NEON_PURPLE}║${NC}"
     echo -e "${NEON_PURPLE}╠═══════════════════════════════════════════════════════════════════════════╣${NC}"
     echo -e "${NEON_PURPLE}║${NEON_WHITE}  🌐 Subdomain :${NEON_GREEN} $SUB${NC}"
     echo -e "${NEON_PURPLE}║${NEON_WHITE}  📍 IP        :${NEON_GREEN} $IP${NC}"
@@ -1212,7 +1216,7 @@ show_dashboard() {
     echo -e "${NEON_PURPLE}║${NEON_WHITE}  🌍 VPS Loc   :${NEON_GREEN} $LOCATION${NC}"
     echo -e "${NEON_PURPLE}║${NEON_WHITE}  📏 MTU       :${NEON_GREEN} $CURRENT_MTU${NC}"
     echo -e "${NEON_PURPLE}║${NEON_WHITE}  🛠️ Services  : DNS:$DNS PRX:$PRX${NC}"
-    echo -e "${NEON_PURPLE}║${NEON_WHITE}  👨‍💻 Developer :${NEON_PINK} NEO-ELITE TEAM${NC}"
+    echo -e "${NEON_PURPLE}║${NEON_WHITE}  👨‍💻 Developer :${NEON_PINK} ELITE-X TEAM${NC}"
     echo -e "${NEON_PURPLE}╠═══════════════════════════════════════════════════════════════════════════╣${NC}"
     echo -e "${NEON_PURPLE}║${NEON_WHITE}  🔑 Act Key   :${NEON_YELLOW} $ACTIVATION_KEY${NC}"
     echo -e "${NEON_PURPLE}║${NEON_WHITE}  ⏳ Expiry    :${NEON_YELLOW} $EXP${NC}"
@@ -1257,13 +1261,13 @@ settings_menu() {
                 read -p "Press Enter to continue..."
                 ;;
             9)
-                echo -e "${NEON_YELLOW}Current MTU: $(cat /etc/neo-elite/mtu)${NC}"
+                echo -e "${NEON_YELLOW}Current MTU: $(cat /etc/elite-x/mtu)${NC}"
                 read -p "$(echo -e $NEON_GREEN"New MTU (1000-5000): "$NC)" mtu
                 [[ "$mtu" =~ ^[0-9]+$ ]] && [ $mtu -ge 1000 ] && [ $mtu -le 5000 ] && {
-                    echo "$mtu" > /etc/neo-elite/mtu
-                    sed -i "s/-mtu [0-9]*/-mtu $mtu/" /etc/systemd/system/dnstt-neo.service
+                    echo "$mtu" > /etc/elite-x/mtu
+                    sed -i "s/-mtu [0-9]*/-mtu $mtu/" /etc/systemd/system/dnstt-elite-x.service
                     systemctl daemon-reload
-                    systemctl restart dnstt-neo dnstt-neo-proxy
+                    systemctl restart dnstt-elite-x dnstt-elite-x-proxy
                     echo -e "${NEON_GREEN}✅ MTU updated to $mtu${NC}"
                 } || echo -e "${NEON_RED}❌ Invalid (must be 1000-5000)${NC}"
                 read -p "Press Enter to continue..."
@@ -1284,16 +1288,16 @@ settings_menu() {
                 read -p "Press Enter to continue..."
                 ;;
             12)
-                systemctl enable --now neo-cleaner.service
+                systemctl enable --now elite-x-cleaner.service
                 echo -e "${NEON_GREEN}✅ Auto remover started${NC}"
                 read -p "Press Enter to continue..."
                 ;;
             13)
-                neo-update
+                elite-x-update
                 read -p "Press Enter to continue..."
                 ;;
             14)
-                systemctl restart dnstt-neo dnstt-neo-proxy sshd
+                systemctl restart dnstt-elite-x dnstt-elite-x-proxy sshd
                 echo -e "${NEON_GREEN}✅ Services restarted${NC}"
                 read -p "Press Enter to continue..."
                 ;;
@@ -1304,15 +1308,15 @@ settings_menu() {
             16)
                 read -p "$(echo -e $NEON_RED"Type YES to uninstall: "$NC)" c
                 [ "$c" = "YES" ] && {
-                    systemctl stop dnstt-neo dnstt-neo-proxy neo-traffic neo-cleaner
-                    systemctl disable dnstt-neo dnstt-neo-proxy neo-traffic neo-cleaner
-                    rm -f /etc/systemd/system/{dnstt-neo*,neo-*}
-                    rm -rf /etc/dnstt /etc/neo-elite
-                    rm -f /usr/local/bin/{dnstt-*,neo-*}
+                    systemctl stop dnstt-elite-x dnstt-elite-x-proxy elite-x-traffic elite-x-cleaner
+                    systemctl disable dnstt-elite-x dnstt-elite-x-proxy elite-x-traffic elite-x-cleaner
+                    rm -f /etc/systemd/system/{dnstt-elite-x*,elite-x-*}
+                    rm -rf /etc/dnstt /etc/elite-x
+                    rm -f /usr/local/bin/{dnstt-*,elite-x*}
                     sed -i '/^Banner/d' /etc/ssh/sshd_config
                     systemctl restart sshd
                     echo -e "${NEON_GREEN}✅ Uninstalled${NC}"
-                    rm -f /tmp/neo-elite-running
+                    rm -f /tmp/elite-x-running
                     exit 0
                 }
                 read -p "Press Enter to continue..."
@@ -1331,47 +1335,47 @@ settings_menu() {
                 read -p "Choice: " opt_choice
                 
                 case $opt_choice in
-                    1) echo "South Africa" > /etc/neo-elite/location
-                       echo "1800" > /etc/neo-elite/mtu
-                       sed -i "s/-mtu [0-9]*/-mtu 1800/" /etc/systemd/system/dnstt-neo.service
+                    1) echo "South Africa" > /etc/elite-x/location
+                       echo "1800" > /etc/elite-x/mtu
+                       sed -i "s/-mtu [0-9]*/-mtu 1800/" /etc/systemd/system/dnstt-elite-x.service
                        systemctl daemon-reload
-                       systemctl restart dnstt-neo dnstt-neo-proxy
+                       systemctl restart dnstt-elite-x dnstt-elite-x-proxy
                        echo -e "${NEON_GREEN}✅ South Africa selected (MTU 1800)${NC}" ;;
-                    2) echo "USA" > /etc/neo-elite/location
+                    2) echo "USA" > /etc/elite-x/location
                        echo -e "${NEON_GREEN}✅ USA selected${NC}" ;;
-                    3) echo "Europe" > /etc/neo-elite/location
+                    3) echo "Europe" > /etc/elite-x/location
                        echo -e "${NEON_GREEN}✅ Europe selected${NC}" ;;
-                    4) echo "Asia" > /etc/neo-elite/location
+                    4) echo "Asia" > /etc/elite-x/location
                        echo -e "${NEON_GREEN}✅ Asia selected${NC}" ;;
-                    5) echo "Auto-detect" > /etc/neo-elite/location
+                    5) echo "Auto-detect" > /etc/elite-x/location
                        echo -e "${NEON_GREEN}✅ Auto-detect selected${NC}" ;;
-                    6) echo "Hyper-Optimized" > /etc/neo-elite/location
-                       /usr/local/bin/neo-elite --apply-hyper
+                    6) echo "Hyper-Optimized" > /etc/elite-x/location
+                       /usr/local/bin/elite-x --apply-hyper
                        echo -e "${NEON_GREEN}✅ Hyper-Optimized selected${NC}" ;;
                 esac
                 read -p "Press Enter to continue..."
                 ;;
             18)
-                echo -e "${NEON_YELLOW}Current subdomain: $(cat /etc/neo-elite/subdomain)${NC}"
+                echo -e "${NEON_YELLOW}Current subdomain: $(cat /etc/elite-x/subdomain)${NC}"
                 read -p "$(echo -e $NEON_GREEN"New subdomain: "$NC)" new_sub
                 if [ ! -z "$new_sub" ]; then
-                    echo "$new_sub" > /etc/neo-elite/subdomain
-                    sed -i "s/${TDOMAIN}/${new_sub}/" /etc/systemd/system/dnstt-neo.service
+                    echo "$new_sub" > /etc/elite-x/subdomain
+                    sed -i "s/$(cat /etc/elite-x/subdomain | sed 's/\./\\\./g')/$new_sub/" /etc/systemd/system/dnstt-elite-x.service
                     systemctl daemon-reload
-                    systemctl restart dnstt-neo dnstt-neo-proxy
+                    systemctl restart dnstt-elite-x dnstt-elite-x-proxy
                     echo -e "${NEON_GREEN}✅ Subdomain updated to $new_sub${NC}"
                 fi
                 read -p "Press Enter to continue..."
                 ;;
             19)
-                neo-live
+                elite-x-live
                 ;;
             20)
-                neo-traffic-analyzer show
+                elite-x-analyzer show
                 read -p "Press Enter to continue..."
                 ;;
             21)
-                neo-renew
+                elite-x-renew
                 read -p "Press Enter to continue..."
                 ;;
             22)
@@ -1384,7 +1388,7 @@ settings_menu() {
                 
                 # Extreme network tweaks
                 cat >> /etc/sysctl.conf <<'OPT'
-# NEO-ELITE EXTREME OPTIMIZATIONS
+# ELITE-X EXTREME OPTIMIZATIONS
 net.core.rmem_max = 134217728
 net.core.wmem_max = 134217728
 net.ipv4.tcp_rmem = 4096 87380 134217728
@@ -1447,29 +1451,29 @@ main_menu() {
         read -p "$(echo -e $NEON_GREEN"Main menu option: "$NC)" ch
         
         case $ch in
-            1) neo-user add; read -p "Press Enter to continue..." ;;
-            2) neo-user list; read -p "Press Enter to continue..." ;;
-            3) neo-user lock; read -p "Press Enter to continue..." ;;
-            4) neo-user unlock; read -p "Press Enter to continue..." ;;
-            5) neo-user del; read -p "Press Enter to continue..." ;;
+            1) elite-x-user add; read -p "Press Enter to continue..." ;;
+            2) elite-x-user list; read -p "Press Enter to continue..." ;;
+            3) elite-x-user lock; read -p "Press Enter to continue..." ;;
+            4) elite-x-user unlock; read -p "Press Enter to continue..." ;;
+            5) elite-x-user del; read -p "Press Enter to continue..." ;;
             6)
-                [ -f /etc/neo-elite/banner/custom ] || cp /etc/neo-elite/banner/default /etc/neo-elite/banner/custom
-                nano /etc/neo-elite/banner/custom
-                cp /etc/neo-elite/banner/custom /etc/neo-elite/banner/ssh-banner
+                [ -f /etc/elite-x/banner/custom ] || cp /etc/elite-x/banner/default /etc/elite-x/banner/custom
+                nano /etc/elite-x/banner/custom
+                cp /etc/elite-x/banner/custom /etc/elite-x/banner/ssh-banner
                 systemctl restart sshd
                 echo -e "${NEON_GREEN}✅ Banner saved${NC}"
                 read -p "Press Enter to continue..."
                 ;;
             7)
-                rm -f /etc/neo-elite/banner/custom
-                cp /etc/neo-elite/banner/default /etc/neo-elite/banner/ssh-banner
+                rm -f /etc/elite-x/banner/custom
+                cp /etc/elite-x/banner/default /etc/elite-x/banner/ssh-banner
                 systemctl restart sshd
                 echo -e "${NEON_GREEN}✅ Banner deleted${NC}"
                 read -p "Press Enter to continue..."
                 ;;
             [Ss]) settings_menu ;;
             00|0) 
-                rm -f /tmp/neo-elite-running
+                rm -f /tmp/elite-x-running
                 show_quote
                 echo -e "${NEON_GREEN}Goodbye!${NC}"
                 exit 0 
@@ -1481,55 +1485,57 @@ main_menu() {
 
 main_menu
 EOF
-chmod +x /usr/local/bin/neo-elite
+chmod +x /usr/local/bin/elite-x
 
 # Cache network information
 echo -e "${NEON_CYAN}Caching network information for fast login...${NC}"
 IP=$(curl -4 -s ifconfig.me 2>/dev/null || echo "Unknown")
-echo "$IP" > /etc/neo-elite/cached_ip
+echo "$IP" > /etc/elite-x/cached_ip
 
 if [ "$IP" != "Unknown" ]; then
     LOCATION_INFO=$(curl -s http://ip-api.com/json/$IP 2>/dev/null)
-    echo "$LOCATION_INFO" | jq -r '.city + ", " + .country' 2>/dev/null > /etc/neo-elite/cached_location || echo "Unknown" > /etc/neo-elite/cached_location
-    echo "$LOCATION_INFO" | jq -r '.isp' 2>/dev/null > /etc/neo-elite/cached_isp || echo "Unknown" > /etc/neo-elite/cached_isp
+    echo "$LOCATION_INFO" | jq -r '.city + ", " + .country' 2>/dev/null > /etc/elite-x/cached_location || echo "Unknown" > /etc/elite-x/cached_location
+    echo "$LOCATION_INFO" | jq -r '.isp' 2>/dev/null > /etc/elite-x/cached_isp || echo "Unknown" > /etc/elite-x/cached_isp
 else
-    echo "Unknown" > /etc/neo-elite/cached_location
-    echo "Unknown" > /etc/neo-elite/cached_isp
+    echo "Unknown" > /etc/elite-x/cached_location
+    echo "Unknown" > /etc/elite-x/cached_isp
 fi
 
 # Auto-show on login
-cat > /etc/profile.d/neo-elite-dashboard.sh <<'EOF'
+cat > /etc/profile.d/elite-x-dashboard.sh <<'EOF'
 #!/bin/bash
-if [ -f /usr/local/bin/neo-elite ] && [ -z "$NEO_ELITE_SHOWN" ]; then
-    export NEO_ELITE_SHOWN=1
-    rm -f /tmp/neo-elite-running 2>/dev/null
-    /usr/local/bin/neo-elite
+if [ -f /usr/local/bin/elite-x ] && [ -z "$ELITE_X_SHOWN" ]; then
+    export ELITE_X_SHOWN=1
+    rm -f /tmp/elite-x-running 2>/dev/null
+    /usr/local/bin/elite-x
 fi
 EOF
-chmod +x /etc/profile.d/neo-elite-dashboard.sh
+chmod +x /etc/profile.d/elite-x-dashboard.sh
 
 cat >> ~/.bashrc <<'EOF'
-alias menu='neo-elite'
-alias neo='neo-elite'
-alias elite='neo-elite'
-alias speed='neo-traffic-analyzer'
-alias live='neo-live'
-alias renew='neo-renew'
+alias menu='elite-x'
+alias elite='elite-x'
+alias speed='elite-x-analyzer'
+alias live='elite-x-live'
+alias renew='elite-x-renew'
 EOF
 
-if [ ! -f /etc/neo-elite/key ]; then
+if [ ! -f /etc/elite-x/key ]; then
     if [ -f "$ACTIVATION_FILE" ]; then
-        cp "$ACTIVATION_FILE" /etc/neo-elite/key
+        cp "$ACTIVATION_FILE" /etc/elite-x/key
     else
-        echo "$ACTIVATION_KEY" > /etc/neo-elite/key
+        echo "$ACTIVATION_KEY" > /etc/elite-x/key
     fi
 fi
+
+# Get expiry info for final display
+EXPIRY_INFO=$(cat /etc/elite-x/expiry 2>/dev/null || echo "Lifetime")
 
 # Final output
 clear
 show_banner
 echo -e "${NEON_GREEN}╔═══════════════════════════════════════════════════════════════╗${NC}"
-echo -e "${NEON_GREEN}║${NEON_YELLOW}${BOLD}              NEO-ELITE INSTALLED SUCCESSFULLY!                ${NEON_GREEN}║${NC}"
+echo -e "${NEON_GREEN}║${NEON_YELLOW}${BOLD}              ELITE-X SLOWDNS INSTALLED SUCCESSFULLY!                ${NEON_GREEN}║${NC}"
 echo -e "${NEON_GREEN}╠═══════════════════════════════════════════════════════════════╣${NC}"
 echo -e "${NEON_GREEN}║${NEON_WHITE}  📌 DOMAIN  : ${NEON_CYAN}${TDOMAIN}${NC}"
 echo -e "${NEON_GREEN}║${NEON_WHITE}  📍 LOCATION: ${NEON_CYAN}${SELECTED_LOCATION}${NC}"
@@ -1538,10 +1544,10 @@ echo -e "${NEON_GREEN}║${NEON_WHITE}  ⏳ EXPIRY  : ${NEON_YELLOW}${EXPIRY_INF
 echo -e "${NEON_GREEN}╠═══════════════════════════════════════════════════════════════╣${NC}"
 echo -e "${NEON_GREEN}║${NEON_WHITE}  🚀 Commands:${NC}"
 echo -e "${NEON_GREEN}║${NEON_WHITE}     menu - Open dashboard${NC}"
-echo -e "${NEON_GREEN}║${NEON_WHITE}     neo  - Quick access${NC}"
-echo -e "${NEON_GREEN}║${NEON_WHITE}     live - Live connection monitor${NC}"
-echo -e "${NEON_GREEN}║${NEON_WHITE}     speed- Traffic analyzer${NC}"
-echo -e "${NEON_GREEN}║${NEON_WHITE}     renew- Renew SSH account${NC}"
+echo -e "${NEON_GREEN}║${NEON_WHITE}     elite - Quick access${NC}"
+echo -e "${NEON_GREEN}║${NEON_WHITE}     live  - Live connection monitor${NC}"
+echo -e "${NEON_GREEN}║${NEON_WHITE}     speed - Traffic analyzer${NC}"
+echo -e "${NEON_GREEN}║${NEON_WHITE}     renew - Renew SSH account${NC}"
 echo -e "${NEON_GREEN}╚═══════════════════════════════════════════════════════════════╝${NC}"
 show_quote
 
@@ -1549,7 +1555,7 @@ read -p "$(echo -e $NEON_GREEN"Open menu now? (y/n): "$NC)" open
 if [ "$open" = "y" ]; then
     echo -e "${NEON_GREEN}Opening dashboard...${NC}"
     sleep 1
-    /usr/local/bin/neo-elite
+    /usr/local/bin/elite-x
 else
     echo -e "${NEON_YELLOW}You can type 'menu' anytime to open the dashboard.${NC}"
 fi
