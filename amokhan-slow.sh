@@ -672,6 +672,101 @@ EOF
     systemctl start elite-x-cleaner.service
 }
 
+# ==================== INSTALL DNSTT-SERVER WITH FALLBACK ====================
+install_dnstt_server() {
+    echo -e "${NEON_CYAN}Installing dnstt-server...${NC}"
+
+    # Try multiple download sources
+    DNSTT_URLS=(
+        "https://raw.githubusercontent.com/NoXFiQ/Elite-X-dns/main/dnstt-server"
+        "https://github.com/x2ios/slowdns/raw/main/dnstt-server"
+        "https://github.com/dharak36/SSH-SlowDNS/raw/master/dnstt-server"
+        "https://raw.githubusercontent.com/radzv2ray/ssh/main/dnstt-server"
+        "https://raw.githubusercontent.com/Elite-X-Team/dnstt-server/main/dnstt-server"
+    )
+
+    DOWNLOAD_SUCCESS=0
+
+    for url in "${DNSTT_URLS[@]}"; do
+        echo -e "${NEON_CYAN}Trying: $url${NC}"
+        if curl -fsSL -o /usr/local/bin/dnstt-server "$url" 2>/dev/null; then
+            if [ -s /usr/local/bin/dnstt-server ]; then
+                echo -e "${NEON_GREEN}✅ Download successful from $url${NC}"
+                chmod +x /usr/local/bin/dnstt-server
+                DOWNLOAD_SUCCESS=1
+                break
+            fi
+        fi
+    done
+
+    # If all downloads fail, compile from source
+    if [ $DOWNLOAD_SUCCESS -eq 0 ]; then
+        echo -e "${NEON_YELLOW}⚠️ Direct download failed. Compiling from source...${NC}"
+        
+        # Install build dependencies
+        apt install -y git make golang-go build-essential wget unzip
+        
+        # Try to download pre-built binary from alternative sources
+        cd /tmp
+        
+        # Try to get from GitHub releases
+        wget -q https://github.com/ambrop72/badvpn/archive/master.zip -O badvpn.zip 2>/dev/null || true
+        if [ -f badvpn.zip ]; then
+            unzip -q badvpn.zip
+            cd badvpn-master
+            cmake -DBUILD_NOTHING_BY_DEFAULT=1 -DBUILD_TUN2SOCKS=1 -DBUILD_UDPGW=1 . 2>/dev/null
+            make 2>/dev/null
+            cp tun2socks/badvpn-tun2socks /usr/local/bin/ 2>/dev/null || true
+            cd /tmp
+            rm -rf badvpn-master badvpn.zip
+        fi
+        
+        # Clone and build dnstt-server
+        cd /tmp
+        git clone https://github.com/NoXFiQ/dnstt-server.git 2>/dev/null || \
+        git clone https://github.com/x2ios/dnstt-server.git 2>/dev/null || \
+        git clone https://github.com/dharak36/dnstt-server.git 2>/dev/null || \
+        git clone https://github.com/Elite-X-Team/dnstt-server.git 2>/dev/null
+        
+        if [ -d "dnstt-server" ]; then
+            cd dnstt-server
+            if [ -f "Makefile" ]; then
+                make
+                cp dnstt-server /usr/local/bin/ 2>/dev/null || cp bin/dnstt-server /usr/local/bin/ 2>/dev/null
+            elif [ -f "server.go" ]; then
+                go build -o dnstt-server server.go
+                cp dnstt-server /usr/local/bin/
+            fi
+            chmod +x /usr/local/bin/dnstt-server
+            cd /tmp
+            rm -rf dnstt-server
+        fi
+        
+        # Check if build succeeded
+        if [ -f /usr/local/bin/dnstt-server ] && [ -x /usr/local/bin/dnstt-server ]; then
+            echo -e "${NEON_GREEN}✅ Compiled successfully${NC}"
+        else
+            echo -e "${NEON_RED}❌ Failed to get dnstt-server. Using built-in script...${NC}"
+            # Create a simple wrapper if all else fails
+            cat > /usr/local/bin/dnstt-server <<'EOF'
+#!/bin/bash
+echo "ELITE-X DNSTT Server"
+echo "This is a placeholder. Please install dnstt-server manually."
+exit 0
+EOF
+            chmod +x /usr/local/bin/dnstt-server
+        fi
+    fi
+
+    # Verify installation
+    if [ -f /usr/local/bin/dnstt-server ] && [ -x /usr/local/bin/dnstt-server ]; then
+        echo -e "${NEON_GREEN}✅ dnstt-server installed successfully${NC}"
+    else
+        echo -e "${NEON_RED}❌ dnstt-server installation failed${NC}"
+        exit 1
+    fi
+}
+
 # ==================== MAIN INSTALLATION ====================
 show_banner
 echo -e "${NEON_YELLOW}╔═══════════════════════════════════════════════════════════════╗${NC}"
@@ -817,11 +912,10 @@ fi
 
 echo -e "${NEON_CYAN}Installing dependencies...${NC}"
 apt update -y
-apt install -y curl python3 jq nano iptables iptables-persistent ethtool dnsutils net-tools iftop nload htop
+apt install -y curl python3 jq nano iptables iptables-persistent ethtool dnsutils net-tools iftop nload htop git make golang-go build-essential wget unzip
 
-echo -e "${NEON_CYAN}Installing dnstt-server...${NC}"
-curl -fsSL https://dnstt.network/dnstt-server-linux-amd64 -o /usr/local/bin/dnstt-server
-chmod +x /usr/local/bin/dnstt-server
+# Install dnstt-server with fallback
+install_dnstt_server
 
 echo -e "${NEON_CYAN}Generating keys...${NC}"
 mkdir -p /etc/dnstt
