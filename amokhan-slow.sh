@@ -1,4 +1,4 @@
-"#!/bin/bash
+#!/bin/bash
 
 # ============================================================================
 #                     SLOWDNS MODERN INSTALLATION SCRIPT
@@ -6,7 +6,7 @@
 
 # Ensure running as root
 if [ "$EUID" -ne 0 ]; then
-    echo -e "\033[0;31m[✗]\033[0m Please run this script as root"
+    echo -e "\033[0;31m[ERROR]\033[0m Please run this script as root"
     exit 1
 fi
 
@@ -73,9 +73,9 @@ print_box() {
 print_banner() {
     clear
     echo -e "${BLUE}╔══════════════════════════════════════════════════════════╗${NC}"
-    echo -e "${BLUE}║${NC}${CYAN}          🚀 MODERN SLOWDNS INSTALLATION SCRIPT${NC}          ${BLUE}.      ║${NC}"
-    echo -e "${BLUE}║${NC}${WHITE}            Fast & Professional Configuration${NC}            ${BLUE}.                         ║${NC}"
-    echo -e "${BLUE}║${NC}${YELLOW}                Optimized for Performance${NC}                ${BLUE}.                         ║${NC}"
+    echo -e "${BLUE}║${NC}${CYAN}          MODERN SLOWDNS INSTALLATION SCRIPT${NC}          ${BLUE}║${NC}"
+    echo -e "${BLUE}║${NC}${WHITE}            Fast & Professional Configuration${NC}            ${BLUE}║${NC}"
+    echo -e "${BLUE}║${NC}${YELLOW}                Optimized for Performance${NC}                ${BLUE}║${NC}"
     echo -e "${BLUE}╚══════════════════════════════════════════════════════════╝${NC}"
     echo ""
 }
@@ -99,7 +99,7 @@ print_warning() {
 }
 
 print_info() {
-    echo -e "  ${CYAN}${BOLD}ℹ${NC} ${CYAN}$1${NC}"
+    echo -e "  ${CYAN}${BOLD}i${NC} ${CYAN}$1${NC}"
 }
 
 # ============================================================================
@@ -118,7 +118,7 @@ main() {
     read -p "$(echo -e "${WHITE}${BOLD}Enter nameserver: ${NC}")" NAMESERVER
     NAMESERVER=${NAMESERVER:-dns.example.com}
     
-    print_header "📦 GATHERING SYSTEM INFORMATION"
+    print_header "GATHERING SYSTEM INFORMATION"
     
     # Get Server IP with animation
     echo -ne "  ${CYAN}Detecting server IP address...${NC}"
@@ -139,11 +139,11 @@ main() {
     show_progress $!
     echo -e "\r  ${GREEN}SSH configuration backed up${NC}"
     
-    cat > /etc/ssh/sshd_config << EOF
+    cat > /etc/ssh/sshd_config << 'EOF'
 # ============================================================================
 # SLOWDNS OPTIMIZED SSH CONFIGURATION
 # ============================================================================
-Port $SSHD_PORT
+Port 22
 Protocol 2
 PermitRootLogin yes
 PubkeyAuthentication yes
@@ -279,7 +279,6 @@ EOF
     
     # Create optimized C code
     cat > /tmp/edns.c << 'EOF'
-
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -500,7 +499,7 @@ EOF
     fi
     
     # Create EDNS service
-    cat > /etc/systemd/system/edns-proxy.service << EOF
+    cat > /etc/systemd/system/edns-proxy.service << 'EOF'
 # ============================================================================
 # EDNS PROXY SERVICE CONFIGURATION
 # ============================================================================
@@ -614,7 +613,7 @@ EOF
     # ============================================================================
     # COMPLETION SUMMARY
     # ============================================================================
-    print_header "🎉 INSTALLATION COMPLETE"
+    print_header "INSTALLATION COMPLETE"
     
     # Show summary in a nice box
     echo -e "${CYAN}┌──────────────────────────────────────────────────────────┐${NC}"
@@ -716,14 +715,13 @@ EOF
     
     # Final message with timer
     echo -e "\n${GREEN}${BOLD}╔══════════════════════════════════════════════════════════╗${NC}"
-    echo -e "${GREEN}${BOLD}║${NC}    ${WHITE}🎯 SLOWDNS INSTALLATION COMPLETED SUCCESSFULLY!${NC}    ${GREEN}${BOLD}║${NC}"
-    echo -e "${GREEN}${BOLD}║${NC}    ${WHITE}⚡ Installation completed in ~30 seconds${NC}            ${GREEN}${BOLD}║${NC}"
-    echo -e "${GREEN}${BOLD}║${NC}    ${WHITE}📊 Services running: SlowDNS + EDNS Proxy${NC}          ${GREEN}${BOLD}║${NC}"
-    echo -e "${GREEN}${BOLD}║${NC}    ${WHITE}🔧 Ready for DNS tunneling${NC}                         ${GREEN}${BOLD}║${NC}"
+    echo -e "${GREEN}${BOLD}║${NC}    ${WHITE}SLOWDNS INSTALLATION COMPLETED SUCCESSFULLY!${NC}    ${GREEN}${BOLD}║${NC}"
+    echo -e "${GREEN}${BOLD}║${NC}    ${WHITE}Installation completed in ~30 seconds${NC}            ${GREEN}${BOLD}║${NC}"
+    echo -e "${GREEN}${BOLD}║${NC}    ${WHITE}Services running: SlowDNS + EDNS Proxy${NC}          ${GREEN}${BOLD}║${NC}"
+    echo -e "${GREEN}${BOLD}║${NC}    ${WHITE}Ready for DNS tunneling${NC}                         ${GREEN}${BOLD}║${NC}"
     echo -e "${GREEN}${BOLD}╚══════════════════════════════════════════════════════════╝${NC}"
     
-    echo -e "\n${YELLOW}${BOLD}📞 Need help? Contact support: @esimfreegb${NC}"
-    echo -e "${YELLOW}${BOLD}💡 Documentation: https://github.com/chiddy80/Halotel-Slow-DNS${NC}"
+    echo -e "\n${YELLOW}${BOLD}Need help? Contact support${NC}"
     
     echo -e "\n${WHITE}${BOLD}Press Enter to return to terminal...${NC}"
     read -r
