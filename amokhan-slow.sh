@@ -1,7 +1,8 @@
 #!/bin/bash
 
 # ============================================================================
-#                     SLOWDNS MODERN INSTALLATION SCRIPT
+#                     COMPLETE SLOWDNS INSTALLATION SCRIPT
+#                         WITH MANAGEMENT DASHBOARD
 # ============================================================================
 
 # Ensure running as root
@@ -15,11 +16,10 @@ fi
 # ============================================================================
 SSHD_PORT=22
 SLOWDNS_PORT=5300
-# Using working GitHub repository with pre-compiled binaries
-GITHUB_BASE="https://raw.githubusercontent.com/khairunisya/am/main"
+GITHUB_BASE="https://github.com/khairunisya/am/raw/main"
 
 # ============================================================================
-# MODERN COLORS & DESIGN
+# COLORS
 # ============================================================================
 RED='\033[0;31m'
 GREEN='\033[0;32m'
@@ -32,263 +32,89 @@ BOLD='\033[1m'
 NC='\033[0m'
 
 # ============================================================================
-# ANIMATION FUNCTIONS
+# INSTALLATION FUNCTION
 # ============================================================================
-show_progress() {
-    local pid=$1
-    local delay=0.1
-    local spinstr='|/-\'
-    while [ "$(ps a | awk '{print $1}' | grep $pid)" ]; do
-        local temp=${spinstr#?}
-        printf " [%c]  " "$spinstr"
-        local spinstr=$temp${spinstr%"$temp"}
-        sleep $delay
-        printf "\b\b\b\b\b\b"
-    done
-    printf "    \b\b\b\b"
-}
-
-print_step() {
-    echo -e "\n${BLUE}┌─${NC} ${CYAN}${BOLD}STEP $1${NC}"
-    echo -e "${BLUE}│${NC}"
-}
-
-print_step_end() {
-    echo -e "${BLUE}└─${NC} ${GREEN}✓${NC} Completed"
-}
-
-print_banner() {
+install_slowdns() {
     clear
     echo -e "${BLUE}╔══════════════════════════════════════════════════════════╗${NC}"
-    echo -e "${BLUE}║${NC}${CYAN}          MODERN SLOWDNS INSTALLATION SCRIPT${NC}          ${BLUE}║${NC}"
-    echo -e "${BLUE}║${NC}${WHITE}            Fast & Professional Configuration${NC}            ${BLUE}║${NC}"
-    echo -e "${BLUE}║${NC}${YELLOW}                Optimized for Performance${NC}                ${BLUE}║${NC}"
+    echo -e "${BLUE}║${NC}         ${YELLOW}SLOWDNS INSTALLATION WIZARD${NC}                  ${BLUE}║${NC}"
     echo -e "${BLUE}╚══════════════════════════════════════════════════════════╝${NC}"
     echo ""
-}
-
-print_header() {
-    echo -e "\n${PURPLE}══════════════════════════════════════════════════════════${NC}"
-    echo -e "${CYAN}${BOLD}$1${NC}"
-    echo -e "${PURPLE}══════════════════════════════════════════════════════════${NC}"
-}
-
-print_success() {
-    echo -e "  ${GREEN}${BOLD}✓${NC} ${GREEN}$1${NC}"
-}
-
-print_error() {
-    echo -e "  ${RED}${BOLD}✗${NC} ${RED}$1${NC}"
-}
-
-print_warning() {
-    echo -e "  ${YELLOW}${BOLD}!${NC} ${YELLOW}$1${NC}"
-}
-
-print_info() {
-    echo -e "  ${CYAN}${BOLD}i${NC} ${CYAN}$1${NC}"
-}
-
-# ============================================================================
-# MAIN INSTALLATION
-# ============================================================================
-main() {
-    print_banner
     
-    # Get nameserver with modern prompt
-    echo -e "${WHITE}${BOLD}Enter nameserver configuration:${NC}"
-    echo -e "${CYAN}┌──────────────────────────────────────────────────────────┐${NC}"
-    echo -e "${CYAN}│${NC} ${YELLOW}Default:${NC} dns.example.com                                     ${CYAN}│${NC}"
-    echo -e "${CYAN}│${NC} ${YELLOW}Example:${NC} tunnel.yourdomain.com                               ${CYAN}│${NC}"
-    echo -e "${CYAN}└──────────────────────────────────────────────────────────┘${NC}"
-    echo ""
-    read -p "$(echo -e "${WHITE}${BOLD}Enter nameserver: ${NC}")" NAMESERVER
-    NAMESERVER=${NAMESERVER:-dns.example.com}
+    # Get nameserver
+    echo -e "${WHITE}Enter your nameserver (e.g., ns.yourdomain.com):${NC}"
+    read -p "> " NAMESERVER
     
-    # Validate nameserver
-    if [ "$NAMESERVER" = "dns.example.com" ]; then
-        print_error "Please enter a valid domain name"
-        exit 1
+    if [ -z "$NAMESERVER" ]; then
+        echo -e "${RED}Error: Nameserver cannot be empty${NC}"
+        return 1
     fi
     
-    print_header "GATHERING SYSTEM INFORMATION"
-    
-    # Get Server IP with animation
-    echo -ne "  ${CYAN}Detecting server IP address...${NC}"
+    # Get server IP
+    echo -ne "${CYAN}Detecting server IP...${NC}"
     SERVER_IP=$(curl -s --connect-timeout 5 ifconfig.me)
     if [ -z "$SERVER_IP" ]; then
         SERVER_IP=$(hostname -I | awk '{print $1}')
     fi
-    echo -e "\r  ${GREEN}Server IP:${NC} ${WHITE}${BOLD}$SERVER_IP${NC}"
+    echo -e " ${GREEN}$SERVER_IP${NC}"
     
-    # Check if nameserver resolves to this server
-    echo -ne "  ${CYAN}Checking nameserver resolution...${NC}"
-    NS_IP=$(dig +short $NAMESERVER | head -1)
-    if [ -n "$NS_IP" ] && [ "$NS_IP" != "$SERVER_IP" ]; then
-        echo -e "\r  ${YELLOW}Warning: $NAMESERVER resolves to $NS_IP, not $SERVER_IP${NC}"
-    else
-        echo -e "\r  ${GREEN}Nameserver check passed${NC}"
-    fi
+    # Update system
+    echo -e "${YELLOW}[1/8] Updating system...${NC}"
+    apt update -y > /dev/null 2>&1
+    apt install -y wget curl build-essential socat dnsutils net-tools iptables > /dev/null 2>&1
     
-    # ============================================================================
-    # STEP 1: UPDATE SYSTEM AND INSTALL DEPENDENCIES
-    # ============================================================================
-    print_step "1"
-    print_info "Updating system and installing dependencies"
-    
-    echo -ne "  ${CYAN}Updating package lists...${NC}"
-    apt update -y > /dev/null 2>&1 &
-    show_progress $!
-    echo -e "\r  ${GREEN}Package lists updated${NC}"
-    
-    echo -ne "  ${CYAN}Installing required packages...${NC}"
-    apt install -y wget curl unzip build-essential net-tools dnsutils > /dev/null 2>&1 &
-    show_progress $!
-    echo -e "\r  ${GREEN}Packages installed${NC}"
-    
-    print_success "System updated and dependencies installed"
-    print_step_end
-    
-    # ============================================================================
-    # STEP 2: CONFIGURE OPENSSH
-    # ============================================================================
-    print_step "2"
-    print_info "Configuring OpenSSH on port $SSHD_PORT"
-    
-    echo -ne "  ${CYAN}Backing up SSH configuration...${NC}"
-    cp /etc/ssh/sshd_config /etc/ssh/sshd_config.backup 2>/dev/null
-    echo -e "\r  ${GREEN}SSH configuration backed up${NC}"
-    
-    cat > /etc/ssh/sshd_config << 'EOF'
-# ============================================================================
-# SLOWDNS OPTIMIZED SSH CONFIGURATION
-# ============================================================================
-Port 22
-Protocol 2
-PermitRootLogin yes
-PubkeyAuthentication yes
-PasswordAuthentication yes
-PermitEmptyPasswords no
-ChallengeResponseAuthentication no
-UsePAM yes
-X11Forwarding no
-PrintMotd no
-PrintLastLog yes
-TCPKeepAlive yes
-ClientAliveInterval 60
-ClientAliveCountMax 3
-AllowTcpForwarding yes
-GatewayPorts yes
-Compression delayed
-Subsystem sftp /usr/lib/openssh/sftp-server
-MaxSessions 100
-MaxStartups 100:30:200
-LoginGraceTime 30
-UseDNS no
-EOF
-    
-    echo -ne "  ${CYAN}Restarting SSH service...${NC}"
-    systemctl restart sshd 2>/dev/null
-    sleep 2
-    echo -e "\r  ${GREEN}SSH service restarted${NC}"
-    
-    print_success "OpenSSH configured on port $SSHD_PORT"
-    print_step_end
-    
-    # ============================================================================
-    # STEP 3: SETUP SLOWDNS
-    # ============================================================================
-    print_step "3"
-    print_info "Setting up SlowDNS environment"
-    
-    echo -ne "  ${CYAN}Creating SlowDNS directory...${NC}"
-    rm -rf /etc/slowdns 2>/dev/null
+    # Create directory
+    echo -e "${YELLOW}[2/8] Creating SlowDNS directory...${NC}"
+    rm -rf /etc/slowdns
     mkdir -p /etc/slowdns
     cd /etc/slowdns
-    echo -e "\r  ${GREEN}SlowDNS directory created${NC}"
     
-    # Download binary with retry mechanism
-    print_info "Downloading SlowDNS binary"
-    DOWNLOAD_SUCCESS=0
-    for i in {1..3}; do
-        echo -ne "  ${CYAN}Fetching binary from GitHub (attempt $i/3)...${NC}"
-        if wget -q "$GITHUB_BASE/dnstt-server" -O dnstt-server; then
-            echo -e "\r  ${GREEN}Binary downloaded successfully${NC}"
-            DOWNLOAD_SUCCESS=1
-            break
-        else
-            echo -e "\r  ${YELLOW}Download attempt $i failed, retrying...${NC}"
-            sleep 2
-        fi
-    done
+    # Download binaries
+    echo -e "${YELLOW}[3/8] Downloading SlowDNS binaries...${NC}"
+    wget -q -O dnstt-server $GITHUB_BASE/dnstt-server
+    wget -q -O dnstt-client $GITHUB_BASE/dnstt-client
     
-    if [ $DOWNLOAD_SUCCESS -eq 0 ]; then
-        echo -e "\r  ${RED}Failed to download binary after 3 attempts${NC}"
-        exit 1
+    if [ ! -f "dnstt-server" ] || [ ! -s "dnstt-server" ]; then
+        echo -e "${RED}Failed to download binaries. Trying alternative source...${NC}"
+        curl -L -o dnstt-server https://github.com/x2ox/dnstt/releases/download/v1.0/dnstt-server.linux.amd64
+        curl -L -o dnstt-client https://github.com/x2ox/dnstt/releases/download/v1.0/dnstt-client.linux.amd64
     fi
     
-    chmod +x dnstt-server
-    SLOWDNS_BINARY="/etc/slowdns/dnstt-server"
+    chmod +x dnstt-server dnstt-client
     
-    # Download key files
-    print_info "Generating encryption keys"
-    echo -ne "  ${CYAN}Generating server keys...${NC}"
+    # Generate keys
+    echo -e "${YELLOW}[4/8] Generating encryption keys...${NC}"
     ./dnstt-server -gen-key -privkey-file server.key -pubkey-file server.pub
-    echo -e "\r  ${GREEN}Server keys generated successfully${NC}"
+    PUBKEY=$(cat server.pub)
     
-    # Test binary
-    echo -ne "  ${CYAN}Validating binary...${NC}"
-    if ./dnstt-server --help 2>&1 | grep -q "usage"; then
-        echo -e "\r  ${GREEN}Binary validated successfully${NC}"
-    else
-        echo -e "\r  ${YELLOW}Binary test inconclusive but continuing${NC}"
-    fi
+    # Stop conflicting services
+    echo -e "${YELLOW}[5/8] Stopping conflicting services...${NC}"
+    systemctl stop systemd-resolved 2>/dev/null
+    systemctl disable systemd-resolved 2>/dev/null
+    fuser -k 53/udp 2>/dev/null
+    fuser -k 5300/udp 2>/dev/null
     
-    print_success "SlowDNS components installed"
-    print_step_end
-    
-    # ============================================================================
-    # STEP 4: CREATE SLOWDNS SERVICE
-    # ============================================================================
-    print_step "4"
-    print_info "Creating SlowDNS system service"
-    
+    # Create SlowDNS service
+    echo -e "${YELLOW}[6/8] Creating SlowDNS service...${NC}"
     cat > /etc/systemd/system/slowdns.service << EOF
 [Unit]
 Description=SlowDNS Server
-Description=High-performance DNS tunnel server
-After=network.target sshd.service
-Wants=network-online.target
+After=network.target
 
 [Service]
 Type=simple
-ExecStart=$SLOWDNS_BINARY -udp :$SLOWDNS_PORT -mtu 1400 -privkey-file /etc/slowdns/server.key $NAMESERVER 127.0.0.1:$SSHD_PORT
+WorkingDirectory=/etc/slowdns
+ExecStart=/etc/slowdns/dnstt-server -udp :$SLOWDNS_PORT -privkey-file /etc/slowdns/server.key $NAMESERVER 127.0.0.1:$SSHD_PORT
 Restart=always
 RestartSec=5
-User=root
 LimitNOFILE=65536
-LimitCORE=infinity
-TimeoutStartSec=0
 
 [Install]
 WantedBy=multi-user.target
 EOF
-    
-    print_success "Service configuration created"
-    print_step_end
-    
-    # ============================================================================
-    # STEP 5: SETUP DNS PROXY (Simple socat instead of compilation)
-    # ============================================================================
-    print_step "5"
-    print_info "Setting up DNS proxy on port 53"
-    
-    # Install socat for simple proxying
-    echo -ne "  ${CYAN}Installing socat...${NC}"
-    apt install -y socat > /dev/null 2>&1
-    echo -e "\r  ${GREEN}Socat installed${NC}"
-    
+
     # Create DNS proxy service
+    echo -e "${YELLOW}[7/8] Creating DNS proxy service...${NC}"
     cat > /etc/systemd/system/dns-proxy.service << 'EOF'
 [Unit]
 Description=DNS Proxy Service
@@ -299,167 +125,224 @@ Type=simple
 ExecStart=/usr/bin/socat UDP-LISTEN:53,fork,reuseaddr UDP:127.0.0.1:5300
 Restart=always
 RestartSec=3
-User=root
 
 [Install]
 WantedBy=multi-user.target
 EOF
+
+    # Configure firewall
+    echo -e "${YELLOW}[8/8] Configuring firewall...${NC}"
+    iptables -F
+    iptables -A INPUT -p udp --dport 5300 -j ACCEPT
+    iptables -A INPUT -p udp --dport 53 -j ACCEPT
+    iptables -A INPUT -p tcp --dport 22 -j ACCEPT
+    iptables -A INPUT -m state --state ESTABLISHED,RELATED -j ACCEPT
     
-    print_success "DNS proxy configured"
-    print_step_end
+    # Save iptables
+    apt install -y iptables-persistent > /dev/null 2>&1
+    netfilter-persistent save > /dev/null 2>&1
     
-    # ============================================================================
-    # STEP 6: FIREWALL CONFIGURATION
-    # ============================================================================
-    print_step "6"
-    print_info "Configuring system firewall"
-    
-    echo -ne "  ${CYAN}Setting up firewall rules...${NC}"
-    # Clear existing rules
-    iptables -F 2>/dev/null
-    iptables -X 2>/dev/null
-    
-    # Allow everything (simple approach for now)
-    iptables -P INPUT ACCEPT 2>/dev/null
-    iptables -P FORWARD ACCEPT 2>/dev/null
-    iptables -P OUTPUT ACCEPT 2>/dev/null
-    
-    # Basic rules
-    iptables -A INPUT -i lo -j ACCEPT 2>/dev/null
-    iptables -A INPUT -m state --state ESTABLISHED,RELATED -j ACCEPT 2>/dev/null
-    iptables -A INPUT -p tcp --dport $SSHD_PORT -j ACCEPT 2>/dev/null
-    iptables -A INPUT -p udp --dport $SLOWDNS_PORT -j ACCEPT 2>/dev/null
-    iptables -A INPUT -p udp --dport 53 -j ACCEPT 2>/dev/null
-    echo -e "\r  ${GREEN}Firewall rules configured${NC}"
-    
-    # Stop conflicting services
-    echo -ne "  ${CYAN}Stopping conflicting DNS services...${NC}"
-    systemctl stop systemd-resolved 2>/dev/null
-    systemctl disable systemd-resolved 2>/dev/null
-    fuser -k 53/udp 2>/dev/null
-    echo -e "\r  ${GREEN}Conflicting services stopped${NC}"
-    
-    print_success "Firewall and network configured"
-    print_step_end
-    
-    # ============================================================================
-    # STEP 7: START SERVICES
-    # ============================================================================
-    print_step "7"
-    print_info "Starting all services"
-    
+    # Start services
     systemctl daemon-reload
+    systemctl enable slowdns dns-proxy
+    systemctl start slowdns dns-proxy
     
-    # Start SlowDNS
-    echo -ne "  ${CYAN}Starting SlowDNS service...${NC}"
-    systemctl enable slowdns > /dev/null 2>&1
-    systemctl start slowdns
+    # Final check
     sleep 3
     
-    if systemctl is-active --quiet slowdns; then
-        echo -e "\r  ${GREEN}SlowDNS service started successfully${NC}"
-    else
-        echo -e "\r  ${YELLOW}SlowDNS service may not be running, check with: systemctl status slowdns${NC}"
-    fi
-    
-    # Start DNS proxy
-    echo -ne "  ${CYAN}Starting DNS proxy service...${NC}"
-    systemctl enable dns-proxy > /dev/null 2>&1
-    systemctl start dns-proxy
-    sleep 2
-    
-    if systemctl is-active --quiet dns-proxy; then
-        echo -e "\r  ${GREEN}DNS proxy service started successfully${NC}"
-    else
-        echo -e "\r  ${YELLOW}DNS proxy may not be running, check with: systemctl status dns-proxy${NC}"
-    fi
-    
-    print_success "All services started"
-    print_step_end
-    
-    # ============================================================================
-    # COMPLETION SUMMARY
-    # ============================================================================
     clear
-    print_header "INSTALLATION COMPLETE"
+    echo -e "${GREEN}╔══════════════════════════════════════════════════════════╗${NC}"
+    echo -e "${GREEN}║${NC}              INSTALLATION COMPLETE!                     ${GREEN}║${NC}"
+    echo -e "${GREEN}╠══════════════════════════════════════════════════════════╣${NC}"
+    echo -e "${GREEN}║${NC} Server IP:     ${WHITE}$SERVER_IP${NC}"
+    echo -e "${GREEN}║${NC} Nameserver:    ${WHITE}$NAMESERVER${NC}"
+    echo -e "${GREEN}║${NC} SlowDNS Port:  ${WHITE}5300 (UDP)${NC}"
+    echo -e "${GREEN}║${NC} DNS Port:      ${WHITE}53 (UDP)${NC}"
+    echo -e "${GREEN}╠══════════════════════════════════════════════════════════╣${NC}"
+    echo -e "${GREEN}║${NC} ${YELLOW}PUBLIC KEY (save this):${NC}"
+    echo -e "${GREEN}║${NC} ${CYAN}$PUBKEY${NC}"
+    echo -e "${GREEN}╚══════════════════════════════════════════════════════════╝${NC}"
     
-    # Get public key
-    PUBKEY=$(cat /etc/slowdns/server.pub 2>/dev/null)
-    
-    # Show summary
-    echo -e "${CYAN}┌──────────────────────────────────────────────────────────┐${NC}"
-    echo -e "${CYAN}│${NC} ${WHITE}${BOLD}SERVER INFORMATION${NC}                                   ${CYAN}│${NC}"
-    echo -e "${CYAN}├──────────────────────────────────────────────────────────┤${NC}"
-    echo -e "${CYAN}│${NC} ${YELLOW}●${NC} Server IP:     ${WHITE}$SERVER_IP${NC}"
-    echo -e "${CYAN}│${NC} ${YELLOW}●${NC} Nameserver:    ${WHITE}$NAMESERVER${NC}"
-    echo -e "${CYAN}│${NC} ${YELLOW}●${NC} SSH Port:      ${WHITE}$SSHD_PORT${NC}"
-    echo -e "${CYAN}│${NC} ${YELLOW}●${NC} SlowDNS Port:  ${WHITE}$SLOWDNS_PORT (UDP)${NC}"
-    echo -e "${CYAN}│${NC} ${YELLOW}●${NC} DNS Port:      ${WHITE}53 (UDP)${NC}"
-    echo -e "${CYAN}│${NC} ${YELLOW}●${NC} MTU Size:      ${WHITE}1400${NC}"
-    echo -e "${CYAN}└──────────────────────────────────────────────────────────┘${NC}"
-    
-    echo -e "\n${CYAN}┌──────────────────────────────────────────────────────────┐${NC}"
-    echo -e "${CYAN}│${NC} ${WHITE}${BOLD}PUBLIC KEY (FOR CLIENT)${NC}                             ${CYAN}│${NC}"
-    echo -e "${CYAN}├──────────────────────────────────────────────────────────┤${NC}"
-    echo -e "${CYAN}│${NC} ${GREEN}$PUBKEY${NC}"
-    echo -e "${CYAN}└──────────────────────────────────────────────────────────┘${NC}"
-    
-    echo -e "\n${CYAN}┌──────────────────────────────────────────────────────────┐${NC}"
-    echo -e "${CYAN}│${NC} ${WHITE}${BOLD}CLIENT CONNECTION COMMAND${NC}                           ${CYAN}│${NC}"
-    echo -e "${CYAN}├──────────────────────────────────────────────────────────┤${NC}"
-    echo -e "${CYAN}│${NC} ${GREEN}./dnstt-client -udp $SERVER_IP:$SLOWDNS_PORT \\${NC}"
-    echo -e "${CYAN}│${NC} ${GREEN}    -pubkey-file server.pub \\${NC}"
-    echo -e "${CYAN}│${NC} ${GREEN}    $NAMESERVER 127.0.0.1:1080${NC}"
-    echo -e "${CYAN}└──────────────────────────────────────────────────────────┘${NC}"
-    
-    echo -e "\n${CYAN}┌──────────────────────────────────────────────────────────┐${NC}"
-    echo -e "${CYAN}│${NC} ${WHITE}${BOLD}USEFUL COMMANDS${NC}                                      ${CYAN}│${NC}"
-    echo -e "${CYAN}├──────────────────────────────────────────────────────────┤${NC}"
-    echo -e "${CYAN}│${NC} ${YELLOW}Check status:${NC}  systemctl status slowdns dns-proxy"
-    echo -e "${CYAN}│${NC} ${YELLOW}View logs:${NC}     journalctl -u slowdns -f"
-    echo -e "${CYAN}│${NC} ${YELLOW}Restart:${NC}       systemctl restart slowdns dns-proxy"
-    echo -e "${CYAN}│${NC} ${YELLOW}Test DNS:${NC}      dig @$SERVER_IP $NAMESERVER"
-    echo -e "${CYAN}└──────────────────────────────────────────────────────────┘${NC}"
-    
-    # Save public key to file for easy access
+    # Save public key to file
     echo "$PUBKEY" > /root/slowdns-pubkey.txt
-    echo -e "\n${GREEN}Public key saved to: /root/slowdns-pubkey.txt${NC}"
+    echo -e "${GREEN}Public key saved to: /root/slowdns-pubkey.txt${NC}"
     
-    echo -e "\n${GREEN}${BOLD}══════════════════════════════════════════════════════════${NC}"
-    echo -e "${GREEN}${BOLD}   INSTALLATION COMPLETED SUCCESSFULLY!${NC}"
-    echo -e "${GREEN}${BOLD}══════════════════════════════════════════════════════════${NC}"
+    read -p "Press Enter to continue to management menu..."
 }
 
 # ============================================================================
-# EXECUTE WITH ERROR HANDLING
+# MANAGEMENT MENU
 # ============================================================================
-trap 'echo -e "\n${RED}✗ Installation interrupted!${NC}"; exit 1' INT
+show_menu() {
+    while true; do
+        clear
+        echo -e "${BLUE}╔══════════════════════════════════════════════════════════╗${NC}"
+        echo -e "${BLUE}║${NC}           ${YELLOW}SLOWDNS MANAGEMENT DASHBOARD${NC}                ${BLUE}║${NC}"
+        echo -e "${BLUE}╠══════════════════════════════════════════════════════════╣${NC}"
+        
+        # Get current status
+        SLOWDNS_STATUS=$(systemctl is-active slowdns 2>/dev/null)
+        DNS_STATUS=$(systemctl is-active dns-proxy 2>/dev/null)
+        SERVER_IP=$(curl -s --connect-timeout 2 ifconfig.me 2>/dev/null || hostname -I | awk '{print $1}')
+        
+        # Status indicators
+        if [ "$SLOWDNS_STATUS" = "active" ]; then
+            SLOWDNS_ICON="${GREEN}● RUNNING${NC}"
+        else
+            SLOWDNS_ICON="${RED}● STOPPED${NC}"
+        fi
+        
+        if [ "$DNS_STATUS" = "active" ]; then
+            DNS_ICON="${GREEN}● RUNNING${NC}"
+        else
+            DNS_ICON="${RED}● STOPPED${NC}"
+        fi
+        
+        echo -e "${BLUE}║${NC} ${WHITE}Server IP:${NC} $SERVER_IP"
+        echo -e "${BLUE}║${NC} ${WHITE}SlowDNS:${NC}   $SLOWDNS_ICON"
+        echo -e "${BLUE}║${NC} ${WHITE}DNS Proxy:${NC}  $DNS_ICON"
+        echo -e "${BLUE}╠══════════════════════════════════════════════════════════╣${NC}"
+        echo -e "${BLUE}║${NC} ${YELLOW}1.${NC} View SlowDNS Logs"
+        echo -e "${BLUE}║${NC} ${YELLOW}2.${NC} View DNS Proxy Logs"
+        echo -e "${BLUE}║${NC} ${YELLOW}3.${NC} Restart All Services"
+        echo -e "${BLUE}║${NC} ${YELLOW}4.${NC} Stop All Services"
+        echo -e "${BLUE}║${NC} ${YELLOW}5.${NC} Start All Services"
+        echo -e "${BLUE}║${NC} ${YELLOW}6.${NC} Show Public Key"
+        echo -e "${BLUE}║${NC} ${YELLOW}7.${NC} Test DNS Resolution"
+        echo -e "${BLUE}║${NC} ${YELLOW}8.${NC} Check Listening Ports"
+        echo -e "${BLUE}║${NC} ${YELLOW}9.${NC} Show Connection Statistics"
+        echo -e "${BLUE}║${NC} ${YELLOW}10.${NC} View Active Connections"
+        echo -e "${BLUE}║${NC} ${YELLOW}11.${NC} Reinstall SlowDNS"
+        echo -e "${BLUE}║${NC} ${YELLOW}12.${NC} Exit"
+        echo -e "${BLUE}╚══════════════════════════════════════════════════════════╝${NC}"
+        echo ""
+        read -p "Select option [1-12]: " choice
 
-# Run main function
+        case $choice in
+            1)
+                echo -e "${CYAN}SlowDNS Logs (Ctrl+C to exit):${NC}"
+                journalctl -u slowdns -f -n 50
+                ;;
+            2)
+                echo -e "${CYAN}DNS Proxy Logs (Ctrl+C to exit):${NC}"
+                journalctl -u dns-proxy -f -n 50
+                ;;
+            3)
+                systemctl restart slowdns dns-proxy
+                echo -e "${GREEN}Services restarted successfully${NC}"
+                sleep 2
+                ;;
+            4)
+                systemctl stop slowdns dns-proxy
+                echo -e "${YELLOW}Services stopped${NC}"
+                sleep 2
+                ;;
+            5)
+                systemctl start slowdns dns-proxy
+                echo -e "${GREEN}Services started${NC}"
+                sleep 2
+                ;;
+            6)
+                if [ -f /etc/slowdns/server.pub ]; then
+                    echo -e "${GREEN}Public Key:${NC}"
+                    cat /etc/slowdns/server.pub
+                else
+                    echo -e "${RED}Public key not found${NC}"
+                fi
+                echo ""
+                read -p "Press Enter to continue"
+                ;;
+            7)
+                if [ -f /etc/systemd/system/slowdns.service ]; then
+                    NAMESERVER=$(grep -oP '(?<=server.key ).*?(?= 127.0.0.1)' /etc/systemd/system/slowdns.service 2>/dev/null)
+                    echo -e "${CYAN}Testing DNS for $NAMESERVER...${NC}"
+                    echo -e "${YELLOW}Using dig:${NC}"
+                    dig @127.0.0.1 $NAMESERVER +short
+                    echo -e "\n${YELLOW}Using nslookup:${NC}"
+                    nslookup $NAMESERVER 127.0.0.1
+                else
+                    echo -e "${RED}SlowDNS not installed${NC}"
+                fi
+                read -p "Press Enter to continue"
+                ;;
+            8)
+                echo -e "${CYAN}Listening Ports:${NC}"
+                echo -e "${YELLOW}UDP Ports:${NC}"
+                ss -ulpn | grep -E ':53|:5300'
+                echo -e "\n${YELLOW}TCP Ports:${NC}"
+                ss -tlnp | grep -E ':22'
+                read -p "Press Enter to continue"
+                ;;
+            9)
+                echo -e "${CYAN}Service Statistics:${NC}"
+                echo -e "${YELLOW}SlowDNS Processes:${NC}"
+                ps aux | grep dnstt-server | grep -v grep
+                echo -e "\n${YELLOW}DNS Proxy Processes:${NC}"
+                ps aux | grep socat | grep -v grep
+                echo -e "\n${YELLOW}Memory Usage:${NC}"
+                ps aux | grep -E 'dnstt-server|socat' | grep -v grep | awk '{print $4"% CPU - " $5"% MEM"}'
+                read -p "Press Enter to continue"
+                ;;
+            10)
+                echo -e "${CYAN}Active UDP Connections:${NC}"
+                netstat -uan | grep -E ':53|:5300' | grep ESTABLISHED
+                echo -e "\n${YELLOW}Total connections: $(netstat -uan | grep -E ':53|:5300' | wc -l)"
+                read -p "Press Enter to continue"
+                ;;
+            11)
+                read -p "Are you sure you want to reinstall? (y/n): " confirm
+                if [ "$confirm" = "y" ] || [ "$confirm" = "Y" ]; then
+                    systemctl stop slowdns dns-proxy
+                    install_slowdns
+                fi
+                ;;
+            12)
+                echo -e "${GREEN}Exiting management menu. Goodbye!${NC}"
+                exit 0
+                ;;
+            *)
+                echo -e "${RED}Invalid option${NC}"
+                sleep 1
+                ;;
+        esac
+    done
+}
+
+# ============================================================================
+# MAIN FUNCTION
+# ============================================================================
+main() {
+    # Check if already installed
+    if [ -f /etc/systemd/system/slowdns.service ] && [ -f /etc/slowdns/server.pub ]; then
+        clear
+        echo -e "${YELLOW}SlowDNS appears to be already installed.${NC}"
+        echo -e "1) Open Management Menu"
+        echo -e "2) Reinstall"
+        echo -e "3) Exit"
+        read -p "Select option [1-3]: " opt
+        
+        case $opt in
+            1)
+                show_menu
+                ;;
+            2)
+                install_slowdns
+                show_menu
+                ;;
+            *)
+                exit 0
+                ;;
+        esac
+    else
+        install_slowdns
+        show_menu
+    fi
+}
+
+# ============================================================================
+# TRAP AND RUN
+# ============================================================================
+trap 'echo -e "\n${RED}Script interrupted${NC}"; exit 1' INT
+
+# Start main function
 main
-
-# Final verification
-echo -e "\n${WHITE}Performing final verification...${NC}"
-sleep 2
-
-# Check if services are running
-if systemctl is-active --quiet slowdns && systemctl is-active --quiet dns-proxy; then
-    echo -e "${GREEN}✓ All services are running properly${NC}"
-else
-    echo -e "${YELLOW}! Some services may not be running. Check with: systemctl status slowdns dns-proxy${NC}"
-fi
-
-# Check ports
-if ss -ulpn | grep -q ":5300"; then
-    echo -e "${GREEN}✓ Port 5300 (SlowDNS) is listening${NC}"
-else
-    echo -e "${RED}✗ Port 5300 is not listening${NC}"
-fi
-
-if ss -ulpn | grep -q ":53"; then
-    echo -e "${GREEN}✓ Port 53 (DNS Proxy) is listening${NC}"
-else
-    echo -e "${RED}✗ Port 53 is not listening${NC}"
-fi
-
-echo -e "\n${GREEN}Installation complete! Use the information above to configure your client.${NC}"
